@@ -1,0 +1,24 @@
+body {
+	width:210mm;
+	background-color:antiquewhite;
+	margin: auto;
+}
+
+p {
+	background-color: azure;
+	padding: 0.3em;
+	border:1px red solid;
+}
+
+svg {
+	background-color: lightcoral;
+}
+
+#math1 {
+	background-color: cyan;
+}
+
+.block_rect {
+	fill:none;
+	stroke: black;
+}
