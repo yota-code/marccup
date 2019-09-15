@@ -13,7 +13,13 @@ Element.prototype.clear = function () {
 	return this;
 };
 
-Element.prototype.grow = function (tag, attribute_map, name_space) {
+Element.prototype.grow = function (tag, attribute_map, name_space, prepend) {
+	if ( prepend === undefined ) {
+		prepend = false;
+	} else {
+		prepend = Boolean(prepend);
+	}
+
 	if ( name_space !== undefined ) {
 		
 		switch ( name_space ) {
@@ -42,6 +48,11 @@ Element.prototype.grow = function (tag, attribute_map, name_space) {
 		}
 	}
 	
-	this.appendChild(child);
+	if ( prepend ) {
+		this.prepend(child);
+	} else {
+		this.append(child);
+	}
+	
 	return child;
 };

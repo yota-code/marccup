@@ -11,14 +11,20 @@ p {
 }
 
 svg {
-	background-color: lightcoral;
+	background-color: rgb(218, 218, 218);
 }
 
 #math1 {
 	background-color: cyan;
 }
 
-.block_rect {
+rect.diag_rect {
+	fill: white;
+	stroke: black;
+}
+
+line {
 	fill:none;
 	stroke: black;
 }
+

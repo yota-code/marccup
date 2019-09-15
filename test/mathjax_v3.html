@@ -7,26 +7,13 @@
 	<script type="text/javascript" src="element.js"></script>
 	<script type="text/javascript" src="script.js"></script>
 	<script>
-		/* MathJax = {
-			tex: {
-				inlineMath: [
-					['\\(', '\\)']
-				],
-				displayMath: [
-					['\\[', '\\]']
-				]
-			},
-			svg: {
-				fontCache: 'global'
-			}
-		}; */
 		window.MathJax = {
 			startup: {
 				ready: () => {
 					MathJax.startup.defaultReady();
 					MathJax.startup.promise.then(() => {
 						console.log('MathJax initial typesetting complete');
-						process_block_diagram();
+						process_svg_math();
 					});
 				}
 			},
@@ -151,55 +138,12 @@
 	
 	<p>Suspendisse pretium, purus in pellentesque lobortis, nibh elit egestas leo, sit amet fringilla elit lorem eu leo. Praesent vel sollicitudin justo, quis laoreet diam. Morbi maximus dictum ipsum, nec finibus enim gravida in. Interdum et malesuada \eqref{eq:sample} fames ac ante ipsum primis in faucibus. Aenean sit amet tincidunt lectus. Donec a mollis augue. Sed lobortis, nunc at consequat luctus, dui neque ultrices ipsum, vitae elementum justo sapien sit amet tellus. Nunc fringilla lobortis elit, feugiat tincidunt felis placerat quis. Nam venenatis convallis nisi sed euismod. Nulla molestie imperdiet congue. Etiam efficitur quis risus quis mattis. Sed efficitur arcu a tincidunt gravida.</p>
 
-	<svg width="190mm" height="100mm">
-		<text class="s_math" x="195" y="50">\[ a^2 \]</text>
-		<text class="s_math" x="30" y="40">\[ \frac{1}{s} \]</text>
-		<text class="s_math" x="30" y="40">\( u \)</text>
+	<svg class="block_diagram" width="190mm" height="100mm">
+		<line x1="50" y1="50" x2="200" y2="50" />
+		<rect class="s_math" x="200" y="50">\[ a^2 \]</rect>
+		<rect class="s_math" x="50" y="50">\[ \frac{1}{s} \]</rect>
+		<text class="s_math" x="125" y="50">\( u \)</text>
 	</svg>
-
-	<p>Suspendisse pretium, purus in pellentesque lobortis, nibh elit egestas leo, sit amet fringilla elit lorem eu leo. Praesent vel sollicitudin justo, quis laoreet diam. Morbi maximus dictum ipsum, nec finibus enim gravida in. Interdum et malesuada \eqref{eq:sample} fames ac ante ipsum primis in faucibus. Aenean sit amet tincidunt lectus. Donec a mollis augue. Sed lobortis, nunc at consequat luctus, dui neque ultrices ipsum, vitae elementum justo sapien sit amet tellus. Nunc fringilla lobortis elit, feugiat tincidunt felis placerat quis. Nam venenatis convallis nisi sed euismod. Nulla molestie imperdiet congue. Etiam efficitur quis risus quis mattis. Sed efficitur arcu a tincidunt gravida.</p>
-
-	<svg width="190mm" height="100mm" viewBox="0 0 190 100">
-		<g>
-			<rect class="block_rect" x="70" y="25" width="50" height="50"></rect>
-			<g transform="translate(95 50)">
-				<svg style="vertical-align: -0.023ex;" width="2.11ex" height="2.022ex" role="img" focusable="false" viewBox="0 -883.9 932.6 893.9">
-					<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)">
-						<g data-mml-node="math">
-							<g data-mml-node="msup">
-								<g data-mml-node="mi">
-									<use xlink:href="#MJX-TEX-I-61"></use>
-								</g>
-								<g data-mml-node="mn" transform="translate(529, 413) scale(0.707)">
-									<use xlink:href="#MJX-TEX-N-32"></use>
-								</g>
-							</g>
-						</g>
-					</g>
-				</svg>
-			</g>
-		</g>
-		<g>
-			<rect class="block_rect" x="5" y="15" width="50" height="50"></rect>
-			<g transform="translate(30 40)">
-				<svg style="vertical-align: -0.025ex;" width="1.884ex" height="2.025ex" role="img" focusable="false" viewBox="0 -883.9 832.6 894.9">
-					<g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)">
-						<g data-mml-node="math">
-							<g data-mml-node="msup">
-								<g data-mml-node="mi">
-									<use xlink:href="#MJX-TEX-I-62"></use>
-								</g>
-								<g data-mml-node="mn" transform="translate(429, 413) scale(0.707)">
-									<use xlink:href="#MJX-TEX-N-32"></use>
-								</g>
-							</g>
-						</g>
-					</g>
-				</svg>
-			</g>
-		</g>
-	</svg>
-
 
 </body>
 <script>
