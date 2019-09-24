@@ -36,20 +36,23 @@ class Parser() :
 			txt = txt.replace(f'{a}<', f'\\{b}<')
 		Path("1001.expanded.bkt").write_text(txt)
 		return txt
-
-	def parse(self, pth) :
-		txt = pth.read_text()
-		txt = self.expand_shortcut(txt)
-
+	
+	def clean_lines(self, txt) :
 		txt = '\n'.join(
 			line.strip()
 			for line in txt.strip().splitlines()
 		)
+		txt = paragraph_rec.sub(txt, '\n\n')
+		return txt.strip()
 
+	def parse(self, pth) :
+		txt = pth.read_text()
+
+		txt = self.expand_shortcut(txt)
+		txt = self.clean_lines(txt)
 
 		o_section = oaktree.Leaf('section', ident=int(pth.stem))
 
-		txt = paragraph_rec.sub(txt, '\n\n')
 		txt_lst = txt.split('\n')
 		if txt.startswith('=') :
 			first_line = txt_lst.pop(0)
