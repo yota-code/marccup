@@ -9,8 +9,9 @@ from cc_pathlib import Path
 
 alinea_ident_rec = re.compile('^\s*(?P<line>.*?)\s*#(?P<ident>[0-9]+)$')
 paragraph_ident_rec = re.compile('^#(?P<ident>[0-9]+)$')
+line_rec = re.compile(r'\\((?P<space>[a-z]+)\.)?(?P<tag>[a-z]+)<')
 
-paragraph_rec = re.compile('\n\n+')
+paragraph_sep_rec = re.compile('\n\n+')
 
 shortcut_lst = [
 	['!!!', 'critical'],
@@ -27,6 +28,16 @@ shortcut_lst = [
 	['_', 'sub'],
 ]
 
+def jump_to_closing(txt) :
+	d = 1
+	for n, c in enumerate(txt) :
+		if c == '<' :
+			d += 1
+		elif c == '>' :
+			d -= 1
+			if d == 0 :
+				return n
+
 class Parser() :
 	def __init__(self) :
 		pass
@@ -42,7 +53,7 @@ class Parser() :
 			line.strip()
 			for line in txt.strip().splitlines()
 		)
-		txt = paragraph_rec.sub(txt, '\n\n')
+		txt = paragraph_sep_rec.sub(txt, '\n\n')
 		return txt.strip()
 
 	def parse_section(self, txt) :
@@ -77,38 +88,24 @@ class Parser() :
 	def parse_paragraph(self, txt) :
 		pass
 
-	def parse_text(self, o_parent, txt, start=0) :
-		print('---', txt[start:])
-		m = 0 # text, tag or content mode
-		d = 0 # depth
-		tag_start, tag_stop = None, None
-		content_start, content_stop = None, None
-		for n, c in enumerate(txt[start:]) :
-			if m == 0 and c == '\\' :
-				m = 1
-				tag_start = n+1
-				#d = 0
-			elif m == 1 and c == '<' :
-				m = 2
-				d += 1
-				print(d, 'A+', n, c)
-				tag_stop = n
-				content_start = n+1
-			elif m == 2 :
-				if c == '<' :
-					d += 1
-					print(d, 'B+', n, c)
-				elif c == '>' :
-					d -= 1
-					print(d, 'C-', n, c)
-					if d == 0 :
-						m = 0
-						content_stop = n
-						print(tag_start, tag_stop, txt[tag_start:tag_stop])
-						print(content_start, content_stop, txt[content_start:content_stop])
-						tag_start, tag_stop = None, None
-						content_start, content_stop = None, None
+	def parse_text(self, o_parent, txt) :
+		while True :
+			line_res = line_rec.search(txt)
 
+			if line_res is None :
+				break
+
+			o_parent.add_text(txt[:line_res.start()])
+
+			content_start = line_res.end()
+			content_len = jump_to_closing(txt[content_start:])
+
+			o_child = o_parent.grow(line_res.group('tag'), space=line_res.group('space'))
+			self.parse_text(o_child, txt[content_start:content_start + content_len])
+
+			txt = txt[content_start+content_len+1:]
+
+		o_parent.add_text(txt)
 
 		
 
@@ -116,9 +113,15 @@ class Parser() :
 
 
 if __name__ == '__main__' :
+	from oaktree.proxy.braket import BraketProxy
+
 	u = Parser()
+
+	p = oaktree.Leaf("bu")
 	#.parse_section(Path('./1001.bkt').read_text())
 	#BraketProxy().save(u, Path("1001.result.bkt"))
-	u.parse_text(None, "Maecenas \important<aliquam ligula id arcu> vestibulum, vitae auctor magna fermentum")
-	u.parse_text(None, "Class \em<aptent taciti sociosqu> ad litora torquent per conubia \critical<nostra, per inceptos> himenaeos")
-	u.parse_text(None, "Nam volutpat, nisl at \important<ornare elementum, massa \sub<nibh> sollicitudin dui>, vitae ullamcorper nisl nibh id risus.")
+	# u.parse_text(p, "Maecenas \important<aliquam ligula id arcu> vestibulum, vitae auctor magna fermentum")
+	# u.parse_text(p, "Class \em<aptent taciti sociosqu> ad litora torquent per conubia \critical<nostra, per inceptos> himenaeos")
+	u.parse_text(p, "Nam volutpat, nisl at \important<ornare elementum, massa \sub<nibh> sollicitudin dui>, vitae ullamcorper nisl nibh id risus.")
+
+	BraketProxy().save(p, Path("test.bkt"))
