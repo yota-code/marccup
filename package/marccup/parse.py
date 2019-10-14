@@ -7,14 +7,23 @@ from oaktree.proxy.braket import BraketProxy
 
 from cc_pathlib import Path
 
-alinea_ident_rec = re.compile(r'^\s*(?P<line>.*?)\s*#(?P<ident>[0-9]+)$')
+# alinea_ident_rec = re.compile(r'^\s*(?P<line>.*?)\s*#(?P<ident>[0-9]+)$')
 paragraph_ident_rec = re.compile(r'^#(?P<ident>[0-9]+)$')
 
+alinea_ident_rec = re.compile(r'#(?P<ident>[0-9]+)$')
+
+
+bullet_list_rec = re.compile(r'^(?P<tabs>\t*)(?P<marker>[\*\#])\s+(?P<line>.*)$')
+
 line_rec = re.compile(r'\\((?P<space>[a-z]+)\.)?(?P<tag>[a-z]+)<')
+block_rec = re.compile(r'\\((?P<space>[a-z]+)\.)?(?P<tag>[a-z]+)<<<')
 
-atom_piece_rec = re.compile(r'<__atom\[(?P<ident>\d+)\]__>')
+atom_piece_rec = re.compile(r'\x01ATOM\[(?P<ident>\d+)\]\x02')
+atom_block_rec = re.compile(r'^\x01ATOM\[(?P<atom_n>\d+)\]\x02\s+#(?P<ident>[0-9]+)$')
 
-paragraph_sep_rec = re.compile('\n\n+')
+paragraph_sep_rec = re.compile(r'\n\n+', re.MULTILINE)
+
+table_cell_span_rec = re.compile(r'^(r(?P<row_n>[0-9]+))?(c(?P<col_n>[0-9]+))?!')
 
 shortcut_lst = [
 	['!!!', 'critical'],
@@ -53,57 +62,86 @@ def jump_to_closing_tag(txt, start) :
 			if d == 0 :
 				return n
 
+def find_all(txt, sub, offset=0) :
+	sub_lst = list()
+	i = txt.find(sub, 0)
+	while i >= 0:
+		sub_lst.append(i)
+		i = txt.find(sub, i+1)
+	return sub_lst
+
 class Parser() :
 	def __init__(self, debug_dir=None) :
 		self.debug_dir = debug_dir
+
 
 	def clean_lines(self, txt) :
 		txt = '\n'.join(
 			line.strip()
 			for line in txt.strip().splitlines()
 		)
-		txt = paragraph_sep_rec.sub(txt, '\n\n')
+		# if self.debug_dir :
+		# 	(self.debug_dir / f"text_half_cleaned.txt").write_text(repr(txt))
+
+		txt = paragraph_sep_rec.sub('\n\n', txt)
+
+		# if self.debug_dir :
+		# 	(self.debug_dir / f"text_twice_cleaned.txt").write_text(repr(txt))
+
+
 		return txt.strip()
 
 	def expand_shortcut(self, txt) :
 		for a, b in shortcut_lst :
-			txt = txt.replace(f'{a}<', f'\\{b}<')
-		Path("1001.expanded.bkt").write_text(txt)
+			txt = txt.replace(a + '<', f'\\' + b + '<')
+			# if self.debug_dir :
+			# 	(self.debug_dir / f"text_expanded_{b}.txt").write_text(txt)
+
 		return txt
 
 	def encode_atom(self, txt) :
-		""" the atoms are only the higher level of an item, they must be protected first """
+		self.atom_map = dict()
+		self.atom_index = 0
 
-		result_lst = list()
-		atom_map = dict()
+		txt = self._encode_atom(txt, block_rec, '>>>')
+		txt = self._encode_atom(txt, line_rec, '>')
 
-		mode = 0
+		if self.debug_dir :
+			(self.debug_dir / "atom_map.json").save(self.atom_map)
+
+
+		return txt, self.atom_map
+
+
+	def _encode_atom(self, txt, start_rec, end_pattern) :
+		start_res_lst = list(start_rec.finditer(txt))
+		print(start_res_lst)
+		end_pattern_lst = find_all(txt, end_pattern)
+
+		block_marker_lst = sorted(start_res_lst + end_pattern_lst, key=( lambda x : x if isinstance(x, int) else x.end() ))
+
 		depth = 0
-		atom_i = 0
-		atom_end = None
-		for n, c in enumerate(txt) :
-			if mode == 0 and c == '\\' :
-				atom_start = n+1
-				mode = 1
-				result_lst.append(txt[atom_end:atom_start-1])
-			elif mode == 1 and c == '<' :
+		cursor = None
+		stack = list()
+		o_space, o_tag = None, None
+		for block_marker in block_marker_lst :
+			if isinstance(block_marker, int) :
+				depth -= 1
+				if depth == 0 :
+					self.atom_map[self.atom_index] = [o_space, o_tag, txt[cursor:block_marker]]
+					cursor = block_marker + len(end_pattern)
+					stack.append(f'\x01ATOM[{self.atom_index}]\x02')
+					self.atom_index += 1
+			else :
 				depth += 1
-				mode = 2
-				atom_sep = n+1
-			elif mode == 2 :
-				if c == '<' :
-					depth += 1
-				elif c == '>' :
-					depth -= 1
-					if depth == 0 :
-						atom_end = n+1
-						atom_map[atom_i] = [txt[atom_start:atom_sep-1], txt[atom_sep:atom_end-1]]
-						result_lst.append(f"<__atom[{atom_i}]__>")
-						atom_i += 1
-						mode = 0
-		result_lst.append(txt[atom_end:None])
+				if depth == 1 :
+					stack.append(txt[cursor:block_marker.start()])
+					o_space, o_tag = block_marker.group('space'), block_marker.group('tag')
+					cursor = block_marker.end()
 
-		return ''.join(result_lst), atom_map
+		stack.append(txt[cursor:])
+
+		return ''.join(stack)
 
 	def decode_atom(self, txt, atom_map) :
 		start, end = None, None
@@ -120,23 +158,6 @@ class Parser() :
 		txt = self.clean_lines(txt)
 		txt = self.expand_shortcut(txt)
 		return self.encode_atom(txt)
-		# while True :
-		# 	atom_header_res = atom_header_rec.search(txt)
-
-		# 	if atom_header_res is None :
-		# 		break
-
-		# 	result_lst.append(txt[:atom_header_res.start()])
-
-		# 	atom_start = atom_header_res.end()
-		# 	atom_len = jump_to_closing_tag(txt, atom_start)
-
-		# 	o_child = o_parent.grow(atom_header_res.group('tag'), space=atom_header_res.group('space'))
-		# 	self.parse_alinea(o_child, txt[content_start:content_start + content_len])
-
-		# 	txt = txt[content_start+content_len+1:]
-
-		# o_parent.add_text(txt)
 
 	def parse_document(self, root_dir) :
 		o_doc = oaktree.Leaf("doc")
@@ -149,11 +170,52 @@ class Parser() :
 			self.parse_section(o_section, txt)
 		return o_doc
 
-	def parse_section(self, o_parent, txt) :
+	def parse_table(self, o_parent, txt) :
+		o_table = o_parent.grow('table')
+		for row in txt.split('---') :
+			o_row = o_table.grow('table-row')
+			for cell in row.split('|') :
+				cell = cell.strip()
 
+				# look for row or col span clues
+				table_cell_span_res = table_cell_span_rec.match(cell)
+				if table_cell_span_res is not None :
+					row_n = table_cell_span_res.group('row_n')
+					if row_n is not None :
+						o_cell.nam["rspan"] = row_n
+					col_n = table_cell_span_res.group('col_n')
+					if col_n is not None :
+						o_cell.nam["cspan"] = col_n
+					cell = cell[table_cell_span_res.end():]
+
+				# look for header clue
+				if cell.startswith('=') :
+					is_header = True
+					cell = cell[1:].lstrip()
+				else :
+					is_header = False
+
+				o_cell = self.parse_alinea(o_row, 'table-cell', cell)
+
+				if is_header :
+					o_cell.style.add('table-header')
+
+
+	def parse_section(self, o_parent, txt) :
+		# à partir du contenu d'un fichier (qui ne doit normalement contenir qu'une section)
+
+		# nettoie un peu
 		txt = self.expand_shortcut(txt)
+
+		if self.debug_dir :
+			(self.debug_dir / "text_expanded.txt").write_text(txt)
+
 		txt = self.clean_lines(txt)
 
+		if self.debug_dir :
+			(self.debug_dir / "text_cleaned.txt").write_text(txt)
+
+		# protège les éléments de haut niveau
 		txt, atom_map = self.encode_atom(txt)
 
 		if self.debug_dir :
@@ -161,43 +223,75 @@ class Parser() :
 				txt + '\n----\n' + '\n'.join(f'{k} : {v}' for k, v in atom_map.items())
 			)
 
+		# coupe en lignes
 		txt_lst = txt.split('\n')
 		if txt.startswith('=') :
+			# si la première ligne commence par '=', on l'embarque, c'est le titre de section
 			first_line = txt_lst.pop(0)
 			o_parent.grow('title').add_text(first_line.lstrip('=').strip())
 
+		# avec le reste, on nettoie un peu
 		txt = '\n'.join(txt_lst).strip()
+		# et on coupe par paragraphe
 		for paragraph in txt.split('\n\n') :
-			atom_piece_res = atom_piece_rec.match(paragraph)
-			if atom_piece_res is not None :
-				tag, content = atom_map[int(atom_piece_res.group('ident'))]
+			atom_block_res = atom_block_rec.match(paragraph)
+			if atom_block_res is not None :
+				space, tag, content = atom_map[int(atom_block_res.group('atom_n'))]
 				if tag == "table" :
 					self.parse_table(o_parent, content)
 				else :
-					o_block = o_parent.grow(tag, flag=['block',])
-					self.parse_alinea(o_block, content)
+					o_block = self.parse_alinea(o_parent, tag, content.strip())
+					o_block.flag.add('block')
 			else :
-				o_paragraph = o_parent.grow('paragraph')
-				self.parse_paragraph(o_paragraph, paragraph)
-
+				for line in paragraph.splitlines() :
+					if not bullet_list_rec.match(line) :
+						o_paragraph = o_parent.grow('paragraph')
+						self.parse_paragraph(o_paragraph, paragraph)
+						break
+				else :
+					self.parse_bullet_list(o_parent, paragraph)
+				
 		if self.debug_dir :
 			BraketProxy().save(o_parent.root, self.debug_dir / "atom_decode.bkt")
 
 	def parse_paragraph(self, o_parent, txt) :
 		for alinea in txt.split('\n') :
-			res = paragraph_ident_rec.match(alinea)
-			if res is None :
-				res = alinea_ident_rec.match(alinea)
-				if res is None :
-					o_alinea = o_parent.grow('alinea')
-				else :
-					o_alinea = o_parent.grow('alinea', ident=int(res.group('ident')))
-					line = res.group('line')
-				self.parse_alinea(o_alinea, alinea)
-			else :
-				o_parent.ident = int(res.group('ident'))
+			self.parse_alinea(o_parent, 'alinea', alinea)
 
-	def parse_alinea(self, o_parent, txt) :
+	def parse_bullet_list(self, o_parent, txt) :
+
+		prev_indent = -1
+
+		o_obj = o_parent
+		for n, line in enumerate(txt.splitlines()) :
+			res = bullet_list_rec.search(line)
+			indent = len(res.group('tabs'))
+			if indent == prev_indent :
+				pass
+			elif indent == prev_indent + 1 :
+				if res.group('marker') == '*' :
+					o_obj = o_obj.grow('ul')
+				elif res.group('marker') == '#' :
+					o_obj = o_obj.grow('ol')
+			elif indent == prev_indent - 1 :
+				o_obj = o_obj.parent
+			self.parse_alinea(o_obj, 'li', res.group('line'))
+			prev_indent = indent
+
+	def parse_alinea(self, o_parent, tag, txt) :
+
+		o_child = o_parent.grow(tag)
+		res = alinea_ident_rec.search(txt)
+		if res is not None :
+			o_child.ident = res.group('ident')
+			txt = txt[:res.start()]
+
+		self._parse_content(o_child, txt)
+
+		return o_child
+
+	def _parse_content(self, o_parent, txt) :
+
 		while True :
 			line_res = line_rec.search(txt)
 
@@ -210,7 +304,7 @@ class Parser() :
 			content_len = jump_to_closing(txt[content_start:])
 
 			o_child = o_parent.grow(line_res.group('tag'), space=line_res.group('space'))
-			self.parse_alinea(o_child, txt[content_start:content_start + content_len])
+			self._parse_content(o_child, txt[content_start:content_start + content_len])
 
 			txt = txt[content_start+content_len+1:]
 
@@ -222,15 +316,17 @@ class Parser() :
 
 
 if __name__ == '__main__' :
-	from oaktree.proxy.braket import BraketProxy
+#  	from oaktree.proxy.braket import BraketProxy
 
 	u = Parser()
+	u.encode_atom(Path('document/1005.bkt').read_text())
 
-	p = oaktree.Leaf("alinea")
-	#.parse_section(Path('./1001.bkt').read_text())
-	#BraketProxy().save(u, Path("1001.result.bkt"))
-	# u.parse_text(p, "Maecenas \important<aliquam ligula id arcu> vestibulum, vitae auctor magna fermentum")
-	#u.expand_shortcut(p, "Class \em<aptent taciti sociosqu> ad litora torquent per conubia \critical<nostra, per inceptos> himenaeos")
-	p, m = u.tst("Nam volutpat, nisl at \\important<ornare elementum, massa \\sub<nibh> sollicitudin dui>, vitae ullamcorper nisl nibh id risus.")
-	print(p)
-	#BraketProxy().save(p, Path("test.bkt"))
+# 	# u.parse_text(p, "Maecenas \important<aliquam ligula id arcu> vestibulum, vitae auctor magna fermentum")
+# 	#u.expand_shortcut(p, "Class \em<aptent taciti sociosqu> ad litora torquent per conubia \critical<nostra, per inceptos> himenaeos")
+# 	p, m = u.tst("Nam volutpat, nisl at \\important<ornare elementum, massa \\sub<nibh> sollicitudin dui>, vitae ullamcorper nisl nibh id risus.")
+# 	print(p)
+
+# 	p = oaktree.Leaf("section")
+# 	#.parse_section(Path('./1001.bkt').read_text())
+# 	#BraketProxy().save(u, Path("1001.result.bkt"))
+# 	#BraketProxy().save(p, Path("test.bkt"))

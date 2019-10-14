@@ -17,3 +17,9 @@ De même pour un alinéa
 
 Sinon c'est un symbole
 
+un lien interne sur une section est défini par @<document#489>
+
+où document est le nom d'un dossier et 489 est le nom du fichier contenant la section
+
+pour un lien vers une équation (equ) un schéma (fig) @<!equ#159>
+
