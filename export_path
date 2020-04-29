@@ -10,7 +10,7 @@ function push_pythonpath() {
 }
 
 push_pythonpath ${source_DIR}/../oaktree
-push_pythonpath "${source_DIR}/../cc-pathlib (pypi)"
+push_pythonpath "${source_DIR}/../cc-pathlib"
 push_pythonpath ${source_DIR}
 
 typeset -T PYTHONPATH pythonpath

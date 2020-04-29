@@ -8,22 +8,8 @@ from oaktree.proxy.braket import BraketProxy
 from cc_pathlib import Path
 
 # alinea_ident_rec = re.compile(r'^\s*(?P<line>.*?)\s*#(?P<ident>[0-9]+)$')
-paragraph_ident_rec = re.compile(r'^#(?P<ident>[0-9]+)$')
 
-alinea_ident_rec = re.compile(r'#(?P<ident>[0-9]+)$')
-
-
-bullet_list_rec = re.compile(r'^(?P<tabs>\t*)(?P<marker>[\*\#])\s+(?P<line>.*)$')
-
-line_rec = re.compile(r'\\((?P<space>[a-z]+)\.)?(?P<tag>[a-z]+)<')
-block_rec = re.compile(r'\\((?P<space>[a-z]+)\.)?(?P<tag>[a-z]+)<<<')
-
-atom_piece_rec = re.compile(r'\x01ATOM\[(?P<ident>\d+)\]\x02')
-atom_block_rec = re.compile(r'^\x01ATOM\[(?P<atom_n>\d+)\]\x02\s+#(?P<ident>[0-9]+)$')
-
-paragraph_sep_rec = re.compile(r'\n\n+', re.MULTILINE)
-
-table_cell_span_rec = re.compile(r'^(r(?P<row_n>[0-9]+))?(c(?P<col_n>[0-9]+))?!')
+DISABLED CODE (portable vers parser/generic.py)
 
 shortcut_lst = [
 	['!!!', 'critical'],
@@ -71,9 +57,10 @@ def find_all(txt, sub, offset=0) :
 	return sub_lst
 
 class Parser() :
-	def __init__(self, debug_dir=None) :
+	def __init__(self, debug_dir=Path('.marccup-tmp')) :
 		self.debug_dir = debug_dir
-
+		if self.debug_dir is not None :
+			self.debug_dir.make_dirs()
 
 	def clean_lines(self, txt) :
 		txt = '\n'.join(
@@ -88,7 +75,6 @@ class Parser() :
 		# if self.debug_dir :
 		# 	(self.debug_dir / f"text_twice_cleaned.txt").write_text(repr(txt))
 
-
 		return txt.strip()
 
 	def expand_shortcut(self, txt) :
@@ -100,6 +86,7 @@ class Parser() :
 		return txt
 
 	def encode_atom(self, txt) :
+		
 		self.atom_map = dict()
 		self.atom_index = 0
 
@@ -109,13 +96,10 @@ class Parser() :
 		if self.debug_dir :
 			(self.debug_dir / "atom_map.json").save(self.atom_map)
 
-
 		return txt, self.atom_map
-
 
 	def _encode_atom(self, txt, start_rec, end_pattern) :
 		start_res_lst = list(start_rec.finditer(txt))
-		print(start_res_lst)
 		end_pattern_lst = find_all(txt, end_pattern)
 
 		block_marker_lst = sorted(start_res_lst + end_pattern_lst, key=( lambda x : x if isinstance(x, int) else x.end() ))
@@ -199,10 +183,36 @@ class Parser() :
 
 				if is_header :
 					o_cell.style.add('table-header')
+		return o_table
 
+	def parse_toc(self, toc_pth) :
+		toc_item_rec = re.compile(r'^(?P<depth>=+)\s*(?P<title>.*?)\s*#(?P<ident>\d+)$')
+		toc_lst = list()
+		for line in toc_pth.read_text().splitlines() :
+			res = toc_item_rec.match(line.strip())
+			if res :
+				toc_lst.append([len(res.group('depth')), res.group('title'), int(res.group('ident'))])
+		return toc_lst
+
+	def parse_splitblock(self, o_parent, toc_pth) :
+		"""
+		o_parent is a higher level container
+		txt is a complete document which contains multiple section
+		"""
+
+		spec_dir = toc_pth.parent
+		toc_lst = self.parse_toc(toc_pth)
+		depth_lst = [o_parent,]
+		for depth, title, ident in toc_lst :
+			depth_lst = depth_lst[:depth]
+			if depth == len(depth_lst) + 1 :
+				o_section = depth_lst[-1].grow('section')
+				depth_lst.append(o_section)
+			self.parse_section(depth_lst[-1], (spec_dir / f"{ident:05d}.bkt").read_text())
 
 	def parse_section(self, o_parent, txt) :
-		# à partir du contenu d'un fichier (qui ne doit normalement contenir qu'une section)
+		""" une section peut continir plusieur paragraphes """
+		# à partir du contenu d'un fichier qui ne contient qu'une seule section
 
 		# nettoie un peu
 		txt = self.expand_shortcut(txt)
@@ -238,10 +248,12 @@ class Parser() :
 			if atom_block_res is not None :
 				space, tag, content = atom_map[int(atom_block_res.group('atom_n'))]
 				if tag == "table" :
-					self.parse_table(o_parent, content)
+					o_block = self.parse_table(o_parent, content)
 				else :
 					o_block = self.parse_alinea(o_parent, tag, content.strip())
 					o_block.flag.add('block')
+				if atom_block_res.group('ident') is not None :
+					o_block.ident = atom_block_res.group('ident').strip()
 			else :
 				for line in paragraph.splitlines() :
 					if not bullet_list_rec.match(line) :
@@ -278,9 +290,10 @@ class Parser() :
 			self.parse_alinea(o_obj, 'li', res.group('line'))
 			prev_indent = indent
 
-	def parse_alinea(self, o_parent, tag, txt) :
+	def parse_alinea(self, o_parent, txt, tag='alinea') :
 
 		o_child = o_parent.grow(tag)
+
 		res = alinea_ident_rec.search(txt)
 		if res is not None :
 			o_child.ident = res.group('ident')

@@ -14,3 +14,7 @@ section_txt = section_pth.read_text()
 u = marccup.Parser(debug_dir=Path("tmp"))
 p = oaktree.Leaf("section")
 u.parse_section(p, section_txt)
+
+v = marccup.Composer(p, Path("tmp/result.html"))
+
+
