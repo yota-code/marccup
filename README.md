@@ -23,3 +23,8 @@ où document est le nom d'un dossier et 489 est le nom du fichier contenant la s
 
 pour un lien vers une équation (equ) un schéma (fig) @<!equ#159>
 
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
+
+mot::
+definition du mot
