@@ -1,25 +1,21 @@
-/* li {
-	border: 1px hsla(0, 100%, 50%, 100%) solid;
-	background: hsla(0, 100%, 50%, 10%);
+html {
+	font-family: 'Cochineal', serif;
+	font-size: 120%;
 }
-
-span {
-	border: 1px hsla(50, 100%, 50%, 100%) solid;
-	background: hsla(50, 100%, 50%, 10%);
-}
-
-ol {
-	border: 1px hsla(100, 100%, 50%, 100%) solid;
-	background: hsla(100, 100%, 50%, 10%);
-}
-
-p {
-	border: 1px hsla(200, 100%, 50%, 100%) solid;
-	background: hsla(200, 100%, 50%, 10%);
-}*/
 
 pre {
+	font-family: 'Inconsolata', monospace;
 	white-space: pre-wrap;
+	font-size: 80%;
+
+	tab-size: 2;
+	-moz-tab-size: 2;
+	-o-tab-size: 2;
+
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Montserrat', sans-serif;
 }
 
 table, tr, td, th {
