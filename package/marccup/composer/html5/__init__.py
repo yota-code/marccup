@@ -66,18 +66,19 @@ class Html5Composer() :
 				sub_dst = parent_dst.grow(child_src.tag)
 				sub_continue = True
 
-			print(child_src, sub_dst, sub_continue)
+			# print(child_src, sub_dst, sub_continue)
 			if sub_continue :
 				for sub_src in child_src.sub :
 					self.compose(sub_src, sub_dst)
 
 	def _compose_title(self, src, dst) :
 		d = len(src.ancestor_lst) - 3
+
 		self.title_num.increment(d)
+
 		sub_dst = dst.grow(f'h{d+1}').add_text(str(self.title_num))
 
-		for src_sub in src.sub :
-			self.convert(src_sub, sub_dst)
+		return sub_dst, True
 
 	def _compose_quote(self, src, dst) :
 		if 'block' in src.flag :
@@ -86,6 +87,9 @@ class Html5Composer() :
 			sub_dst = dst.grow('q')
 
 		return sub_dst, True
+
+	def _compose_book(self, src, dst) :
+		return dst, True
 
 	def _compose_math(self, src, dst) :
 		if 'block' in src.flag :

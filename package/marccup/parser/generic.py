@@ -264,11 +264,11 @@ class GenericParser() :
 		else :
 			# the paragraph is made of alineas, bullet or normal
 			for alinea_txt in paragraph_txt.splitlines() :
-				print(alinea_txt)
+				# print(alinea_txt)
 				# let's check that is is a not a bullet of numbered list
 				if not bullet_list_rec.match(alinea_txt) :
 					# the paragraph is just made of alineas
-					print("break")
+					# print("break")
 					break
 			else :
 				# bullet !
@@ -353,13 +353,13 @@ class GenericParser() :
 			curr = res.start()
 			s = txt[prev:curr]
 			if s.strip() :
-				o_alinea.add_text(s)
+				o_alinea.add_text(s.strip() + ' ')
 			o_atom = self.parse_atom(res, False)
 			o_alinea.attach(o_atom)
 			prev = res.end()
 		s = txt[prev:None]
 		if s.strip() :
-			o_alinea.add_text(s)
+			o_alinea.add_text(s.strip() + ' ')
 
 		return o_alinea
 
@@ -371,7 +371,7 @@ class GenericParser() :
 			o_block = self._parse_atom_table(atom.content)
 		elif atom.tag == "math" :
 			# easy, let's do it now
-			print("POPO", atom_res, is_block, )
+			# print("POPO", atom_res, is_block, )
 			if is_block :
 				o_block = oaktree.Leaf('math', flag={'block'})
 			else :
