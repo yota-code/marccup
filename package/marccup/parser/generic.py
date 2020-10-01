@@ -7,7 +7,6 @@ from cc_pathlib import Path
 import oaktree
 from oaktree.proxy.braket import BraketProxy
 
-
 from marccup.parser.atom import Atom
 from marccup.parser.libre import *
 
@@ -34,7 +33,7 @@ def jump_to_closing_tag(txt, start) :
 	n = start
 	while True :
 		c = txt[n]
-		if c == '<' :
+		if c == '<'  :
 			d += 1
 		elif c == '>' :
 			d -= 1
@@ -59,17 +58,19 @@ def trim_line(txt) :
 
 class GenericParser() :
 
-	def __init__(self, debug_dir=None) :
+	# def __init__(self, debug_dir=None) :
+	def __init__(self) :
 
-		self.debug_dir = debug_dir
-		if self.debug_dir is not None :
-			self.debug_dir.make_dirs()
-		self.debug_index = 0
+		# self.debug_dir = debug_dir
+		# if self.debug_dir is not None :
+		# 	self.debug_dir.make_dirs()
+		# self.debug_index = 0
 
 		self.atom_map = dict()
 		self.atom_index = 0
 
 	def dbg(self, name, * value_lst) :
+		return
 		h = hashlib.blake2b(value_lst[0].encode('utf8')).hexdigest()[:8]
 		if self.debug_dir is not None :
 			pth = (self.debug_dir / f"{self.debug_index:02d}.{h}.{name}")
@@ -198,7 +199,7 @@ class GenericParser() :
 		# if title_res is not None : #
 		# 	o_section.grow('title', ident=title_res.group('ident')).add_text(title_res.group('title'))
 
-	def parse_auto(self, txt) :
+	def parse(self, txt, automatic=False) :
 		""" parse a text zone (no title) can be an alinea, a paragraph or a section """
 
 		txt = self.expand_shortcut(txt)
@@ -206,7 +207,7 @@ class GenericParser() :
 		txt = self.protect_atom(txt)
 		txt = self.clean_lines(txt)
 
-		if '\n\n' in txt :
+		if '\n\n' in txt or not automatic :
 			return self.parse_section(txt)
 		elif '\n' in txt :
 			return self.parse_paragraph(txt)
@@ -344,8 +345,10 @@ class GenericParser() :
 		res = alinea_ident_rec.search(txt)
 		if res is not None :
 			# if the alinea ident exists, parse it and cut it
-			o_alinea.ident = res.group('ident')
-			txt = txt[:res.start()].rstrip()
+			o_alinea.ident = int(res.group('ident'))
+			txt = txt[:res.start()]
+
+		txt = txt.rstrip()
 
 		# the first level atoms have already been parsed
 		prev = None
@@ -353,13 +356,13 @@ class GenericParser() :
 			curr = res.start()
 			s = txt[prev:curr]
 			if s.strip() :
-				o_alinea.add_text(s.strip() + ' ')
+				o_alinea.add_text(s)
 			o_atom = self.parse_atom(res, False)
 			o_alinea.attach(o_atom)
 			prev = res.end()
 		s = txt[prev:None]
 		if s.strip() :
-			o_alinea.add_text(s.strip() + ' ')
+			o_alinea.add_text(s)
 
 		return o_alinea
 
@@ -370,21 +373,17 @@ class GenericParser() :
 		if atom.tag == "table" :
 			o_block = self._parse_atom_table(atom.content)
 		elif atom.tag == "math" :
-			# easy, let's do it now
-			# print("POPO", atom_res, is_block, )
 			if is_block :
 				o_block = oaktree.Leaf('math', flag={'block'})
 			else :
 				o_block = oaktree.Leaf('math')
 			o_block.add_text(atom.content[0].strip())
 		else :
-			# o_block = oaktree.Leaf(atom.tag)
-			# o_block.add_text('|'.join(atom.content))
 			o_block = self.parse_alinea('|'.join(atom.content), atom.tag)
 			o_block.flag.add('block')
 
 		if is_block and atom_res.group('ident') is not None :
-			o_block.ident = atom_res.group('ident').strip()
+			o_block.ident = int(atom_res.group('ident').strip())
 
 		return o_block
 
@@ -433,6 +432,7 @@ class GenericParser() :
 		else :
 			row_lst = [ line for line in txt.splitlines() if line.strip() ]
 
+
 		for row in row_lst :
 			o_row = o_table.grow('table_row')
 			for cell in row.split('|') :
@@ -459,8 +459,8 @@ class GenericParser() :
 
 				o_cell = o_row.grow('table_cell')
 
-				o_content = self.parse_auto(cell)
-				o_row.attach(* o_content.sub)
+				o_content = self.parse(cell, True)
+				o_cell.attach(* o_content.sub)
 
 				if is_header :
 					o_cell.flag.add('header')

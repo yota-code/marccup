@@ -30,23 +30,23 @@ class Html5Composer() :
 	def __init__(self) :
 		self.title_num = AutomaticTitle()
 
-	def compose(self, src, dst) :
-		# print(f"convert({src}, {dst})")
-		if isinstance(src, str) :
-			dst.add_text(src)
-		else :
-			for src_sub in src.sub :
-				if isinstance(src_sub, str) :
-					dst.add_text(src_sub)
-				else :
-					if src_sub.tag in self.tr_map :
-						dst_sub = dst.grow(self.tr_map[src_sub.tag])
-						self.compose(src_sub, dst_sub)
-					elif hasattr(self, f"_compose_{src_sub.tag}") :
-						getattr(self, f"_compose_{src_sub.tag}")(src_sub, dst)
-					else :
-						dst_sub = dst.grow(src_sub.tag)
-						self.compose(src_sub, dst_sub)
+	# def compose(self, src, dst) :
+	# 	# print(f"convert({src}, {dst})")
+	# 	if isinstance(src, str) :
+	# 		dst.add_text(src)
+	# 	else :
+	# 		for src_sub in src.sub :
+	# 			if isinstance(src_sub, str) :
+	# 				dst.add_text(src_sub)
+	# 			else :
+	# 				if src_sub.tag in self.tr_map :
+	# 					dst_sub = dst.grow(self.tr_map[src_sub.tag])
+	# 					self.compose(src_sub, dst_sub)
+	# 				elif hasattr(self, f"_compose_{src_sub.tag}") :
+	# 					getattr(self, f"_compose_{src_sub.tag}")(src_sub, dst)
+	# 				else :
+	# 					dst_sub = dst.grow(src_sub.tag)
+	# 					self.compose(src_sub, dst_sub)
 
 	def compose(self, child_src, parent_dst) :
 		if isinstance(child_src, str) :
@@ -65,6 +65,11 @@ class Html5Composer() :
 				# nothing of the above, just translate as this
 				sub_dst = parent_dst.grow(child_src.tag)
 				sub_continue = True
+
+			if child_src.ident is not None :
+				sub_dst.ident = f"{child_src.tag}_{child_src.ident}"
+				if child_src.tag in ['paragraph', 'alinea'] :
+					sub_dst.style.add('spec')
 
 			# print(child_src, sub_dst, sub_continue)
 			if sub_continue :
@@ -85,11 +90,25 @@ class Html5Composer() :
 			sub_dst = dst.grow('blockquote')
 		else :
 			sub_dst = dst.grow('q')
-
 		return sub_dst, True
 
 	def _compose_book(self, src, dst) :
 		return dst, True
+
+	def _compose_link(self, src, dst) :
+		src_lst = [i.strip() for i in src.sub[0].split('|')]
+
+		if src_lst[0].startswith('http') :
+			sub_dst = dst.grow('a', nam={'href':src_lst[0]})
+		else :
+			sub_dst = dst.grow('a', nam={'class':'cross-link', 'href':src_lst[0]})
+
+		if len(src_lst) > 1:
+			sub_dst.add_text(src_lst[1])
+		else :
+			sub_dst.add_text(src_lst[0])
+
+		return sub_dst, False
 
 	def _compose_math(self, src, dst) :
 		if 'block' in src.flag :

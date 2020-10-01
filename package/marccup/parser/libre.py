@@ -4,7 +4,6 @@ import re
 
 title_rec = re.compile(r'^\s*(?P<depth>=+)\s*(?P<title>.*?)(\s*§(?P<ident>\d+))?$')
 
-
 paragraph_ident_rec = re.compile(r'^#(?P<ident>[0-9]+)$')
 
 alinea_ident_rec = re.compile(r'§(?P<ident>[0-9]+)$')
@@ -20,7 +19,6 @@ atom_line_rec = re.compile(r'\x02ATOM\[(?P<atom_n>\d+)\]\x03')
 atom_block_rec = re.compile(r'^\x02ATOM\[(?P<atom_n>\d+)\]\x03(\s*§(?P<ident>[0-9]+))?$')
 
 paragraph_sep_rec = re.compile(r'\n\n+', re.MULTILINE)
-
 
 bullet_list_rec = re.compile(r'^(?P<tabs>\t*)(?P<marker>[\*\#])\s+(?P<line>.*)$')
 

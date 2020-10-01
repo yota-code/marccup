@@ -13,6 +13,9 @@ push_pythonpath ${source_DIR}/../oaktree
 push_pythonpath "${source_DIR}/../cc-pathlib"
 push_pythonpath ${source_DIR}
 
+export MARCCUP_static_DIR=${source_DIR}/static
+export MARCCUP_repo_DIR="/mnt/workbench/source/marccup/test/parser/book"
+
 typeset -T PYTHONPATH pythonpath
 
 typeset -U pythonpath

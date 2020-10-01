@@ -156,6 +156,3 @@ for fnm in sys.argv[1:] :
 		protect(m), protect(g.save(p)), protect(g.save(q.sub[0])), f.save(q)
 	))
 
-
-
-
