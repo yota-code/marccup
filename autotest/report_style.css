@@ -34,4 +34,5 @@ table, tr, td, th {
 tr.sub_frame > td, tr.sub_frame {
 	padding: 0px 0px;
 	margin: 0px 0px;
+	background-color: #aaa;
 }

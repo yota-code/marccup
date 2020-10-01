@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>syntax_list_03</title>
+	<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Inconsolata&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../../page_style.css">
+	<script>
+
+function mathjax_render(input, output, display) {
+	// https://mathjax.github.io/MathJax-demos-web/input-tex2svg.html
+	output.innerHTML = '';
+	
+	// Reset the tex labels (and automatic equation numbers, though there aren't any here).
+	MathJax.texReset();
+
+	// Get the conversion options (metrics and display settings)
+	var options = MathJax.getMetricsFor(output);
+	options.display = display;
+
+	MathJax.tex2svgPromise(input, options).then(function (node) {
+		output.appendChild(node);
+	}).catch(function (err) {
+		// If there was an error, put the message into the output instead
+		output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
+	}).then(function () {
+		// do nothing
+	});
+}
+
+	</script>
+</head>
+<body>
+<div id="main"><section><p><span>Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.</span><span>Pellentesque sit amet consectetur augue, quis consectetur nibh.</span></p><ol><li>Sed sed mi libero.</li><li>Vivamus ut porta ligula.</li><li>Etiam id aliquet nisl.</li><li>Integer ultricies eros a enim sollicitudin molestie.</li></ol><p><span>Nulla ut massa quis eros varius elementum.</span><span>Quisque sit amet lacinia lectus.</span></p></section></div>
+<script>
+
+for (let h_block of document.querySelectorAll("p.mcp-math")) {
+	console.log(h_block.textContent);
+	mathjax_render(h_block.textContent.trim(), h_block, true);
+}
+for (let h_inline of document.querySelectorAll("span.mcp-math")) {
+	console.log(h_inline.textContent);
+	mathjax_render(h_inline.textContent.trim(), h_inline, false);
+}
+
+MathJax.startup.document.clear();
+MathJax.startup.document.updateDocument();
+</script>
+</body>
+</html>

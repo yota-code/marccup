@@ -1,5 +1,5 @@
 *.pyo
 *.pyc
 
-./external
-./.vscode
+/external
+/test
