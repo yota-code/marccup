@@ -214,7 +214,7 @@ class GenericParser() :
 		else :
 			return self.parse_alinea(txt)
 
-	def parse_section(self, txt, tag='section') :
+	def _parse_section(self, txt, tag='section') :
 		""" a section is a part of text which contains many paragraphs """
 
 		initial_txt = txt
@@ -312,23 +312,20 @@ class GenericParser() :
 				# reduced indentation level
 				o_list = o_list.parent_n(2 * (prev_indent - indent))
 			else :
-				# on rattrappe l'indentation si le premier est également indenté ( ce qui n'est pas très standard)
+				# on rattrappe l'indentation si le premier est également indenté ( ce qui n'est pas très standard )
 				to_grow = True
 
 			if to_grow :
 				if res.group('marker') == '*' :
 					o_list = oaktree.Leaf('ul')
-					print("this is UL")
 				elif res.group('marker') == '#' :
 					o_list = oaktree.Leaf('ol')
-					print("this is OL")
 				else :
 					raise ValueError()
 				if o_root is None :
 					o_root = o_list
 				else :
 					o_alinea.attach(o_list)
-
 
 			o_alinea = self.parse_alinea(res.group('line'), 'li')
 

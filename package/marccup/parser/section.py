@@ -3,7 +3,6 @@
 from marccup.parser.generic import GenericParser
 from marccup.parser.libre import *
 
-
 class SectionParser(GenericParser) :
 	""" a section is a part composed of one or more paragraph (and no title ?) """
 

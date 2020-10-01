@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 
-source_DIR=$0:A:h
+source_dir=${0:A:h}
+
+export MARCCUP_autotest_DIR=${source_dir}/autotest
 
 function push_pythonpath() {
 	pth=$1:A
@@ -9,11 +11,11 @@ function push_pythonpath() {
 	export PYTHONPATH=${pth}/package:$PYTHONPATH
 }
 
-push_pythonpath ${source_DIR}/../oaktree
-push_pythonpath "${source_DIR}/../cc-pathlib"
-push_pythonpath ${source_DIR}
+push_pythonpath ${source_dir}/../oaktree
+push_pythonpath "${source_dir}/../cc-pathlib"
+push_pythonpath ${source_dir}
 
-export MARCCUP_static_DIR=${source_DIR}/static
+export MARCCUP_static_DIR=${source_dir}/static
 export MARCCUP_repo_DIR="/mnt/workbench/source/marccup/test/parser/book"
 
 typeset -T PYTHONPATH pythonpath

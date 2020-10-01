@@ -28,3 +28,29 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 
 mot::
 definition du mot
+
+## List
+
+List can be nested. But a list item can only contain
+
+* either another list
+* or an alinea
+
+One can not put chapter or section as list item
+
+## Section, Page and Document
+
+This defines three level of object in marccup:
+
+### Section
+
+A section consists in a single block of text with at most one level 1 title on top.
+
+### Page
+
+A page consists of a combination of titles and blocks of text. Where the first title must be of level 1 and all other title levels must be consistent
+
+### Document
+
+A document is contained in a folder which holds a __doc__.mcp file containing only the titles.
+

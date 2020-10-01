@@ -47,8 +47,6 @@ class PageParser(GenericParser) :
 					prev_depth = depth
 					prev_node = o_section
 
-				
-
 				prev_res = title_res
 				stack = [line,]
 

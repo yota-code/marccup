@@ -112,9 +112,9 @@ class Html5Composer() :
 
 	def _compose_math(self, src, dst) :
 		if 'block' in src.flag :
-			sub_dst = dst.grow('p', style={'math-block',})
+			sub_dst = dst.grow('p', style={'mcp-math',})
 		else :
-			sub_dst = dst.grow('span', style={'math-inline',})
+			sub_dst = dst.grow('span', style={'mcp-math',})
 
 		sub_dst.add_text(''.join(src.sub))
 
