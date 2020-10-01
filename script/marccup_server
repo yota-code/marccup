@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import os
+
+import cherrypy
+
+from cc_pathlib import Path
+
+import marccup.server
+
+marccup_static_dir = Path(os.environ['MARCCUP_static_DIR'])
+marccup_repo_dir = Path(os.environ['MARCCUP_static_DIR'])
+
+# cherrypy.server.ssl_module = 'builtin'
+
+# cherrypy.server.ssl_certificate = str(marccup_static_dir / .. / "data" / "certificate.pem")
+# cherrypy.server.ssl_private_key = str(marccup_static_dir / .. / "data" / "private.key")
+
+app_conf = {
+	'/': {
+		'tools.sessions.on': True
+	},
+	'/_static': {
+		'tools.staticdir.on' : True,
+		'tools.staticdir.dir' : str(marccup_static_dir),
+	},
+}
+
+cherrypy.tree.mount(marccup.server.MarccupServer(), '/marccup', app_conf)
+
+cherrypy.engine.start()
+cherrypy.engine.block()

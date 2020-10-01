@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>marccup - reader</title>
+
+	<link rel="stylesheet" data-name="vs/editor/editor.main" href="_static/js/ext/monaco-editor/min/vs/editor/editor.main.css">
+
+	<script src="_static/js/common.js"></script>
+	<script src="_static/js/history.js"></script>
+	<script src="_static/js/marccup-reader.js"></script>
+
+
+	<link rel="stylesheet" href="_static/css/style.css">
+
+</head>
+<body>
+
+<div id="mcp_top">
+	<div id="book_selection">
+		<form name="book_select" action="javascript:initial_load( document.forms.book_select.book_pth.value )">
+			<label>book:</label>
+			<input name="book_pth" size="85" list="book_lst" disabled placeholder="Loading in progress...">
+			<input type="submit" value="load">
+		</form>
+	</div>
+</div>
+<div id="mcp_left" class="clickable"></div>
+<div id="mcp_main">
+	<input id="open_editor" type="button" value="✎">
+	<div id="mcp_content"></div>
+</div>
+<!--<div id="mcp_editor">
+	<div id="mcp_editor_code"></div>
+	<div id="mcp_editor_preview"></div>
+	<form id="mcp_editor_form">
+		<input type="button" value="cancel">
+		<input type="submit" value="save">
+	</form>
+</div>-->
+<datalist id="book_lst"></datalist>
+
+
+<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<script>
+
+var hist = new HistoryEngine();
+
+m_book = new MarccupReaderEngine();
+
+function initial_load(value) {
+	hist.push({'b': value});
+}
+
+</script>
+
+<script>var require = { paths: { 'vs': '_static/js/ext/monaco-editor/min/vs' } };</script>
+
+<script src="_static/js/ext/monaco-editor/min/vs/loader.js"></script>
+<script src="_static/js/ext/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+<script src="_static/js/ext/monaco-editor/min/vs/editor/editor.main.js"></script>
+
+<script>
+/*
+var editor = monaco.editor.create(document.getElementById('mcp_editor_code'), {
+	value: [
+		'function x() {',
+		'\tconsole.log("Hello world!");',
+		'}'
+	].join('\n'),
+	language: 'javascript'
+});
+*/
+</script>
+</body>
+</html>

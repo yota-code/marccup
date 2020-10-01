@@ -336,6 +336,10 @@ class GenericParser() :
 		return o_root
 
 	def parse_alinea(self, txt, tag='alinea') :
+		"""
+		txt: should not contain any line feed
+		tag: can be something else than 'alinea'. most of the time it will be 'li'
+		"""
 
 		o_alinea = oaktree.Leaf(tag)
 

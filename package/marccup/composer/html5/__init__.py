@@ -22,7 +22,7 @@ class Html5Composer() :
 
 	tr_map = {
 		"paragraph" : "p",
-		"alinea" : "span",
+		# "alinea" : "span",
 		"table_row" : "tr",
 		"page": "article"
 	}
@@ -119,6 +119,11 @@ class Html5Composer() :
 		sub_dst.add_text(''.join(src.sub))
 
 		return sub_dst, False	
+
+	def _compose_alinea(self, src, dst) :
+		sub_dst = dst.grow('span')
+		dst.add_text('\n') # retour à la ligne
+		return sub_dst, True
 
 	def _compose_table_cell(self, src, dst) :
 		if 'header' in src.flag :

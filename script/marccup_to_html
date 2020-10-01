@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+
+""" take a one page document, output a one page html file """
+
+import sys
+
+from cc_pathlib import Path
+
+import marccup.parser.page
+import marccup.converter.html5
+
+import oaktree.proxy.braket
+import oaktree.proxy.html5
+
+for fnm in sys.argv[1:] :
+	src_pth = Path(fnm).resolve()
+	if src_pth.suffix != '.mcp' :
+		raise ValueError
+
+	debug_dir = Path(f'./tmp-{src_pth.fname}')
+
+	u = marccup.parser.page.PageParser( debug_dir )
+
+	p = u.parse_page(src_pth.read_text())
+
+	b = oaktree.proxy.braket.BraketProxy()
+	b.save(p, (debug_dir / src_pth.fname).with_suffix('.bkt'))
+
+sys.exit(0)
+
+src_pth = Path(sys.argv[1])
+if src_pth.suffix != '.mcp' :
+	raise ValueError
+dst_pth = src_pth.with_suffix('.html')
+
+marccup.parser.page.PageParser().parse_page(p, src_pth.read_text())
+
+q = oaktree.Leaf('div')
+
+marccup.converter.html5.Html5Converter().convert(p, q)
+
+stack = list()
+oaktree.proxy.html5.Html5Proxy(fragment=True).save(q, stack)
+
+
+html = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>title</title>
+<link rel="stylesheet" href="css/page.css">
+<script src="js/page.js"></script>
+</head>
+<body>
+{0}
+</body>
+</html>'''.format('\n'.join(stack))
+
+(debug_dir / src_pth.fname).with_suffix('.html').write_text(html)
