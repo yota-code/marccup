@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 def find_all(txt, sub, offset=0) :
 	sub_lst = list()
 	i = txt.find(sub, 0)
