@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" page parser, a page is a self containing document, with title, sections, and everyting """
+""" page parser, a page is a self containing document, with title, sections, and everyting in a single file"""
 
 import re
 

@@ -7,6 +7,9 @@ from oaktree.proxy.braket import BraketProxy
 
 from cc_pathlib import Path
 
+
+RAAAAAH
+
 # alinea_ident_rec = re.compile(r'^\s*(?P<line>.*?)\s*#(?P<ident>[0-9]+)$')
 
 DISABLED CODE (portable vers parser/generic.py)
@@ -62,7 +65,7 @@ class Parser() :
 		if self.debug_dir is not None :
 			self.debug_dir.make_dirs()
 
-	def clean_lines(self, txt) :
+	def clean_text(self, txt) :
 		txt = '\n'.join(
 			line.strip()
 			for line in txt.strip().splitlines()
@@ -139,7 +142,7 @@ class Parser() :
 		return ''.join(stack)
 		
 	def tst(self, txt) :
-		txt = self.clean_lines(txt)
+		txt = self.clean_text(txt)
 		txt = self.expand_shortcut(txt)
 		return self.encode_atom(txt)
 
@@ -211,21 +214,21 @@ class Parser() :
 			self.parse_section(depth_lst[-1], (spec_dir / f"{ident:05d}.bkt").read_text())
 
 	def parse_section(self, o_parent, txt) :
-		""" une section peut continir plusieur paragraphes """
-		# à partir du contenu d'un fichier qui ne contient qu'une seule section
+		""" une section peut contenir plusieurs paragraphes et éventuellement un titre"""
 
-		# nettoie un peu
+		# déroule les raccourcis
 		txt = self.expand_shortcut(txt)
 
 		if self.debug_dir :
 			(self.debug_dir / "text_expanded.txt").write_text(txt)
 
-		txt = self.clean_lines(txt)
+		# nettoie un peu
+		txt = self.clean_text(txt)
 
 		if self.debug_dir :
 			(self.debug_dir / "text_cleaned.txt").write_text(txt)
 
-		# protège les éléments de haut niveau
+		# protège les balises de haut niveau
 		txt, atom_map = self.encode_atom(txt)
 
 		if self.debug_dir :
@@ -233,12 +236,13 @@ class Parser() :
 				txt + '\n----\n' + '\n'.join(f'{k} : {v}' for k, v in atom_map.items())
 			)
 
-		# coupe en lignes
+		# decoupe en lignes
 		txt_lst = txt.split('\n')
 		if txt.startswith('=') :
-			# si la première ligne commence par '=', on l'embarque, c'est le titre de section
+			# si la première ligne commence par '=', c'est le titre de section
 			first_line = txt_lst.pop(0)
-			o_parent.grow('title').add_text(first_line.lstrip('=').strip())
+			title_line = first_line.lstrip('=').strip()
+			self.parse_alinea(o_parent, title_line, 'title')
 
 		# avec le reste, on nettoie un peu
 		txt = '\n'.join(txt_lst).strip()
@@ -289,6 +293,27 @@ class Parser() :
 				o_obj = o_obj.parent
 			self.parse_alinea(o_obj, 'li', res.group('line'))
 			prev_indent = indent
+
+	def parse_title(self, o_section, line) :
+		""" specific function to parse the first line of a section """
+
+		line = line.replace('\n', ' ')
+		line = line.replace('\t', ' ')
+		line = re.sub('\s+', ' ', line)
+
+		line = line.lstrip('=').strip()
+
+		o_title = o_section.grow('title')
+
+		res = alinea_ident_rec.search(line)
+		if res is not None :
+			o_child.ident = res.group('ident')
+			txt = txt[:res.start()]
+
+		self._parse_content(o_child, txt)
+
+		return o_child
+
 
 	def parse_alinea(self, o_parent, txt, tag='alinea') :
 
