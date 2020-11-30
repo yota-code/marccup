@@ -21,10 +21,6 @@ def todo(dst, * src_lst) :
 	return False
 	
 class BookParser(GenericParser) :
-	def __init__(self) :
-
-		self.atom_map = dict()
-		self.atom_index = 0
 
 	def parse_book(self, base_dir) :
 
@@ -44,6 +40,7 @@ class BookParser(GenericParser) :
 
 			txt = (base_dir / "part" / f'{ident:04d}').read_text()
 			mcp = self.expand_shortcut(txt)
+
 			o_section = self.parse_section(mcp)
 			o_title = oaktree.Leaf('title').add_text(title if title != '~' else '')
 
@@ -59,69 +56,3 @@ class BookParser(GenericParser) :
 
 		return o_book
 
-	def parse_index(self, txt) :
-
-		index_lst = list()
-
-		line_lst = txt.splitlines()
-		num = [0,]
-		prev_depth = 1
-		for n, line in enumerate(line_lst) :
-			if not line.strip() :
-				continue
-			title_res = title_rec.match(line)
-			if title_res is None :
-				print(f"error processing index line {n+1}")
-				continue
-			
-			depth = len(title_res.group('depth'))
-			title = title_res.group('title')
-			ident = int(title_res.group('ident'))
-
-			if depth <= prev_depth + 1 :
-				if depth == prev_depth + 1 :
-					num += [0,]
-				num = num[:depth]
-				num[-1] += 1
-			else :
-				raise ValueError()
-
-			index_lst.append([tuple(num), title, ident])
-
-			prev_depth = depth
-	
-		return index_lst
-
-	def parse_refer(self, txt) :
-
-		txt = self.expand_shortcut(txt)
-
-		txt = self.protect_atom(txt)
-		txt = self.clean_lines(txt)
-
-		print(txt)
-
-		
-	# def parse_index(self) :
-
-	# 	self.index_lst = list()
-
-	# 	line_lst = (self.base_dir / "index").read_text().splitlines()
-	# 	num = [0,]
-	# 	prev_depth = 1
-	# 	for n, line in enumerate(line_lst) :
-	# 		if not line.strip() :
-	# 			continue
-	# 		title_res = title_rec.match(line)
-	# 		if title_res is None :
-	# 			print(f"error processing index line {n+1}")
-	# 			continue
-	# 		depth = len(title_res.group('depth'))
-	# 		title = title_res.group('title')
-	# 		ident = int(title_res.group('ident'))
-
-	# 		self.index_lst.append([depth, title, ident])
-
-	def _check_index(self) :
-		# mettre plein de vérification de cohérence, ici
-		pass

@@ -14,7 +14,7 @@ mais ça pose un problème avec les alineas qui pourraient potentiellement ne pa
 
 """
 
-class PageParser(GenericParser) :		
+class PageParser(GenericParser) :
 
 	def parse_page(self, txt) :
 		o_page = oaktree.Leaf('page')

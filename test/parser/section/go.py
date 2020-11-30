@@ -2,6 +2,7 @@
 
 import sys
 
+import cc_pathlib
 from cc_pathlib import Path
 
 import oaktree.proxy.braket
@@ -132,13 +133,16 @@ for fnm in sys.argv[1:] :
 	print(f"\x1b[31m{fnm}\x1b[0m")
 
 	pth = Path(fnm).resolve()
-	
+
 	debug_dir = Path(f'./tmp-{pth.fname}')
+	debug_dir.make_dirs()
 	debug_dir.delete()
 
 	u = marccup.parser.generic.GenericParser(debug_dir)
 	m = pth.read_text()
-	p = u.parse_auto(m)
+	p = u.parse_section(m)
+
+	sys.exit(0)
 	b.save(p, pth.with_suffix('.bkt'))
 
 	v = marccup.composer.html5.Html5Composer()

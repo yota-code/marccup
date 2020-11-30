@@ -2,6 +2,8 @@
 
 """ this class take a parsed marccup as an oaktree, and transform it into an html5 tree """
 
+import marccup.composer.html.space.scade as scade
+
 class AutomaticTitle() :
 	def __init__(self, max_depth=6) :
 		self.max_depth = max_depth
@@ -30,29 +32,17 @@ class Html5Composer() :
 	def __init__(self) :
 		self.title_num = AutomaticTitle()
 
-	# def compose(self, src, dst) :
-	# 	# print(f"convert({src}, {dst})")
-	# 	if isinstance(src, str) :
-	# 		dst.add_text(src)
-	# 	else :
-	# 		for src_sub in src.sub :
-	# 			if isinstance(src_sub, str) :
-	# 				dst.add_text(src_sub)
-	# 			else :
-	# 				if src_sub.tag in self.tr_map :
-	# 					dst_sub = dst.grow(self.tr_map[src_sub.tag])
-	# 					self.compose(src_sub, dst_sub)
-	# 				elif hasattr(self, f"_compose_{src_sub.tag}") :
-	# 					getattr(self, f"_compose_{src_sub.tag}")(src_sub, dst)
-	# 				else :
-	# 					dst_sub = dst.grow(src_sub.tag)
-	# 					self.compose(src_sub, dst_sub)
+		self.space = {
+			'scade' : scade.Html5Composer_Scade()
+		}
 
 	def compose(self, child_src, parent_dst) :
 		if isinstance(child_src, str) :
 			parent_dst.add_text(child_src)
 		else :
-			if child_src.tag in self.tr_map :
+			if child_src.space in self.space :
+				self.space[child_src.space].compose(child_src, parent_dst)
+			elif child_src.tag in self.tr_map :
 				# just a translation, easy, let's do that !
 				sub_dst = parent_dst.grow(self.tr_map[child_src.tag],
 					style=set(child_src.style)

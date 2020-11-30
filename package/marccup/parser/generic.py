@@ -8,29 +8,11 @@ import oaktree
 from oaktree.proxy.braket import BraketProxy
 
 from marccup.parser.atom import Atom
+
 from marccup.parser.libre import *
+from marccup.parser.common import *
 
 class GenericParser() :
-
-	# def __init__(self, debug_dir=None) :
-	def __init__(self) :
-
-		# self.debug_dir = debug_dir
-		# if self.debug_dir is not None :
-		# 	self.debug_dir.make_dirs()
-		# self.debug_index = 0
-
-		self.atom_map = dict()
-		self.atom_index = 0
-
-	def dbg(self, name, * value_lst) :
-		return
-		h = hashlib.blake2b(value_lst[0].encode('utf8')).hexdigest()[:8]
-		if self.debug_dir is not None :
-			pth = (self.debug_dir / f"{self.debug_index:02d}.{h}.{name}")
-			pth.make_parents()
-			pth.write_text(('\n' + '─' * 96 + '\n').join(str(value) for value in value_lst))
-			self.debug_index += 1
 
 	shortcut_lst = [
 		['!!!', 'critical'],
@@ -47,19 +29,33 @@ class GenericParser() :
 		['_', 'sub'],
 	]
 
-	def clean_lines(self, txt) :
-		# right trim each line
-		lst = [ line.rstrip() for line in txt.splitlines() ]
 
-		# remove empty lines at start or at the end
-		while lst and not lst[0].strip() :
-			lst.pop(0)
-		while lst and not lst[-1].strip() :
-			lst.pop(-1)
-		txt = '\n'.join(lst)
+	def __init__(self, debug_dir=None) :
 
-		# format paragragraphs properly
-		txt = paragraph_sep_rec.sub('\n\n', txt)
+		self.debug_dir = debug_dir
+		if self.debug_dir is not None :
+			self.debug_dir.make_dirs()
+
+		self.debug_index = 0
+
+	def dbg(self, fname, content) :
+		if self.debug_dir is not None :
+			(self.debug_dir / fname).write_text(content)
+
+	def pp(self, * pos) :
+		if self.debug_dir is not None :
+			print(* pos)
+
+	def _prep_parse(self, txt=None) :
+		self.pp(f'>>> GenericParser._prep_parse()')
+
+		self.atom_map = dict()
+		self.atom_index = 0
+
+		self.dbg("0_original.txt", txt)
+		txt = self.expand_shortcut(txt)
+		txt = self.protect_atom(txt)
+		txt = self.clean_lines(txt)
 
 		return txt
 
@@ -71,12 +67,12 @@ class GenericParser() :
 		txt = txt.replace('\>', '&gt;')
 		txt = txt.replace('\<', '&lt;')
 		txt = txt.replace('\|', '&vert;')
-		txt = txt.replace('\\\\', '&bsol;')
+		# txt = txt.replace('\\\\', '&bsol;')
 
 		for a, b in self.shortcut_lst :
 			txt = txt.replace(a + '<', f'\\' + b + '<')
 
-		self.dbg(f'expand_shortcut.txt', initial_txt, txt)
+		self.dbg("1_expanded.txt", txt)
 
 		return txt
 
@@ -91,7 +87,25 @@ class GenericParser() :
 		# then the single ones
 		txt = self._to_atom(txt, line_rec, '>')
 
-		self.dbg(f"protect_atom.txt", initial_txt, txt, '\n'.join(f'{k} : {v}' for k, v in self.atom_map.items()))
+		self.dbg("2_protected.txt", txt)
+
+		return txt
+
+	def clean_lines(self, txt) :
+		# right trim each line
+		lst = [ line.rstrip() for line in txt.splitlines() ]
+
+		# remove empty lines at start or at the end
+		while lst and not lst[0].strip() :
+			lst.pop(0)
+		while lst and not lst[-1].strip() :
+			lst.pop(-1)
+		txt = '\n'.join(lst)
+
+		# format paragragraphs properly
+		txt = paragraph_sep_rec.sub('\n\n', txt)
+
+		self.dbg("3_cleaned.txt", txt)
 
 		return txt
 
@@ -153,14 +167,11 @@ class GenericParser() :
 		# if title_res is not None : #
 		# 	o_section.grow('title', ident=title_res.group('ident')).add_text(title_res.group('title'))
 
-	def parse(self, txt) :
+	def parse(self, txt, clean=True) :
 		""" parse a text zone (no title) can be an alinea, a paragraph or a section """
 
-		txt = self.expand_shortcut(txt)
-
-		txt = self.protect_atom(txt)
-
-		txt = self.clean_lines(txt)
+		if clean :
+			txt = self._prep_parse(txt)
 
 		if '\n\n' in txt :
 			return self.parse_section(txt)
@@ -169,22 +180,23 @@ class GenericParser() :
 		else :
 			return self.parse_alinea(txt)
 
-	def _parse_section(self, txt, tag='section') :
-		""" a section is a part of text which contains many paragraphs """
+	def parse_section(self, txt, tag='section', clean=False) :
+		""" a section is a part of text which contains many paragraphs but no title at all (nor at the beginning, nor in the middle)"""
 
-		initial_txt = txt
+		if clean :
+			txt = self._prep_parse(txt)
+
+		backup_txt = txt
 
 		o_section = oaktree.Leaf(tag)
 
-		# protect higher level atoms and cleanup
-		txt = self.protect_atom(txt)
-		txt = self.clean_lines(txt)
-
 		for paragraph_txt in txt.split('\n\n') :
-			o_block = self.parse_paragraph(paragraph_txt)
-			o_section.attach(o_block)
+			paragraph_txt = paragraph_txt.strip()
+			if paragraph_txt :
+				o_block = self.parse_paragraph(paragraph_txt)
+				o_section.attach(o_block)
 		
-		self.dbg(f'GenericParser.parse_section.bkt', initial_txt, BraketProxy().save(o_section.root))
+		# self.dbg(f'GenericParser.parse_section.bkt', backup_txt, BraketProxy().save(o_section.root))
 
 		return o_section
 
@@ -201,22 +213,22 @@ class GenericParser() :
 		atom_block_res = atom_block_rec.match(paragraph_txt)
 		if atom_block_res is not None :
 			# the paragraph consists in a sole atom, with possibly an ident
-			return self.parse_atom(atom_block_res, True)
+			# return self.parse_atom(atom_block_res, True)
 
-			# atom = self.atom_map[int(atom_block_res.group('atom_n'))]
-			# if atom.tag == "table" :
-			# 	o_block = self.parse_table(atom.content)
-			# elif atom.tag == "math" :
-			# 	# easy, let's do it now
-			# 	o_block = oaktree.Leaf('math', flag={'block'}).add_text(atom.content[0].strip())
-			# else :
-			# 	o_block = self.parse_alinea('|'.join(atom.content), atom.tag)
-			# 	o_block.flag.add('block')
+			atom = self.atom_map[int(atom_block_res.group('atom_n'))]
+			if atom.tag == "table" :
+				o_block = self.parse_table(atom.content)
+			elif atom.tag == "math" :
+				# easy, let's do it now
+				o_block = oaktree.Leaf('math', flag={'block'}).add_text(atom.content[0].strip())
+			else :
+				o_block = self.parse_alinea('|'.join(atom.content), atom.tag)
+				o_block.flag.add('block')
 
-			# if atom_block_res.group('ident') is not None :
-			# 	o_block.ident = atom_block_res.group('ident').strip()
+			if atom_block_res.group('ident') is not None :
+				o_block.ident = atom_block_res.group('ident').strip()
 
-			# return o_block
+			return o_block
 
 		else :
 			# the paragraph is made of alineas, bullet or normal

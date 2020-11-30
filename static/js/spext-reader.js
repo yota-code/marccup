@@ -1,4 +1,4 @@
-class MarccupReaderEngine {
+class SpextReaderEngine {
 
 	constructor() {
 
@@ -37,7 +37,7 @@ class MarccupReaderEngine {
 		console.log( change._debug() );
 		if ( change.todo('b') ) {
 			Promise.all([
-				this.index_load(),
+				this.toc_load(),
 				this.refer_load()
 			]).then(() => {
 				hist.apply();
@@ -79,8 +79,8 @@ class MarccupReaderEngine {
 		});
 	}
 
-	index_load() {
-		return prom_get_JSON(`_get_json?&b=${hist.state.get('b')}&f=index`).then( (obj) => {
+	toc_load() {
+		return prom_get_JSON(`_get_toc?&b=${hist.state.get('b')}`).then( (obj) => {
 
 			var h_div = document.getElementById("mcp_left");
 			h_div.clear();
