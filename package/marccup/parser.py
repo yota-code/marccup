@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
 
-import hashlib
-
 from cc_pathlib import Path
 
 import oaktree
-from oaktree.proxy.braket import BraketProxy
 
-from marccup.parser.atom import Atom
+from marccup.atom import Atom
 
-from marccup.parser.libre import *
-from marccup.parser.common import *
+from marccup.libre import *
+from marccup.common import *
 
-class GenericParser() :
+class MarccupParser() :
 
 	shortcut_lst = [
 		['!!!', 'critical'],
@@ -28,7 +25,6 @@ class GenericParser() :
 		['^', 'sup'],
 		['_', 'sub'],
 	]
-
 
 	def __init__(self, debug_dir=None) :
 
@@ -93,7 +89,7 @@ class GenericParser() :
 
 	def clean_lines(self, txt) :
 		# right trim each line
-		lst = [ line.rstrip() for line in txt.splitlines() ]
+		lst = [ line.rstrip() for line in txt.splitlines() if not line.lstrip().startswith('%%')]
 
 		# remove empty lines at start or at the end
 		while lst and not lst[0].strip() :
@@ -167,10 +163,10 @@ class GenericParser() :
 		# if title_res is not None : #
 		# 	o_section.grow('title', ident=title_res.group('ident')).add_text(title_res.group('title'))
 
-	def parse(self, txt, clean=True) :
+	def parse(self, txt, prep=False) :
 		""" parse a text zone (no title) can be an alinea, a paragraph or a section """
 
-		if clean :
+		if not prep :
 			txt = self._prep_parse(txt)
 
 		if '\n\n' in txt :
@@ -180,10 +176,10 @@ class GenericParser() :
 		else :
 			return self.parse_alinea(txt)
 
-	def parse_section(self, txt, tag='section', clean=False) :
+	def parse_section(self, txt, tag='section', prep=False) :
 		""" a section is a part of text which contains many paragraphs but no title at all (nor at the beginning, nor in the middle)"""
 
-		if clean :
+		if not prep :
 			txt = self._prep_parse(txt)
 
 		backup_txt = txt
@@ -196,8 +192,6 @@ class GenericParser() :
 				o_block = self.parse_paragraph(paragraph_txt)
 				o_section.attach(o_block)
 		
-		# self.dbg(f'GenericParser.parse_section.bkt', backup_txt, BraketProxy().save(o_section.root))
-
 		return o_section
 
 	def parse_paragraph(self, paragraph_txt) :
@@ -339,7 +333,7 @@ class GenericParser() :
 		# the paragraph consists in a sole atom, with possibly an ident
 		atom = self.atom_map[int(atom_res.group('atom_n'))]
 		if atom.tag == "table" :
-			o_block = self._parse_atom_table(atom.content)
+			o_block = self.parse_table(atom.content)
 		elif atom.tag == "math" :
 			if is_block :
 				o_block = oaktree.Leaf('math', flag={'block'})
@@ -383,7 +377,7 @@ class GenericParser() :
 	# 	o_parent.add_text(txt)
 
 
-	def _parse_atom_table(self, txt) :
+	def parse_table(self, txt) :
 
 		o_table = oaktree.Leaf('table')
 
@@ -399,7 +393,6 @@ class GenericParser() :
 			row_lst = table_split_rec.split(txt)
 		else :
 			row_lst = [ line for line in txt.splitlines() if line.strip() ]
-
 
 		for row in row_lst :
 			o_row = o_table.grow('table_row')

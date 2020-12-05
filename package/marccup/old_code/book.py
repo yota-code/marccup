@@ -19,6 +19,8 @@ def todo(dst, * src_lst) :
 			return True
 	
 	return False
+
+USELESS for NOW
 	
 class BookParser(GenericParser) :
 
