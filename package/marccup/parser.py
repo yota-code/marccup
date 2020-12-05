@@ -48,7 +48,7 @@ class MarccupParser() :
 		self.atom_map = dict()
 		self.atom_index = 0
 
-		self.dbg("0_original.txt", txt)
+		self.dbg("0_original.mcp", txt)
 		txt = self.expand_shortcut(txt)
 		txt = self.protect_atom(txt)
 		txt = self.clean_lines(txt)
