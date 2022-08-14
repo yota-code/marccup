@@ -24,7 +24,9 @@ class Html5Composer() :
 		"paragraph" : "p",
 		# "alinea" : "span",
 		"table_row" : "tr",
-		"page": "article"
+		"page": "article",
+		"highlighted": "em",
+		"important": "strong"
 	}
 
 	def __init__(self) :
@@ -119,6 +121,12 @@ class Html5Composer() :
 		sub_dst.add_text(''.join(src.sub))
 
 		return sub_dst, False	
+
+	def _compose_critical(self, src, dst) :
+		sub_dst = dst.grow('span', style="mcp-critical")
+		dst.add_text('\n') # retour à la ligne
+		return sub_dst, True
+
 
 	def _compose_alinea(self, src, dst) :
 		sub_dst = dst.grow('span')

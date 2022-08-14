@@ -79,9 +79,9 @@ class GenericParser() :
 			self.debug_index += 1
 
 	shortcut_lst = [
-		['!!!', 'critical'],
-		['!!', 'strong'],
-		['!', 'em'],
+		['!!!', 'high_3'],
+		['!!', 'high_2'],
+		['!', 'high_1'],
 		["'", 'code'],
 		['"', 'quote'],
 		['$', 'math'],
@@ -373,6 +373,9 @@ class GenericParser() :
 		atom = self.atom_map[int(atom_res.group('atom_n'))]
 		if atom.tag == "table" :
 			o_block = self._parse_atom_table(atom.content)
+		elif atom.tag.startswith("high_") :
+			o_block = self.parse_alinea('|'.join(atom.content), atom.tag)
+			o_block.pos.append(int(atom.tag[5:]))
 		elif atom.tag == "math" :
 			if is_block :
 				o_block = oaktree.Leaf('math', flag={'block'})
@@ -381,7 +384,8 @@ class GenericParser() :
 			o_block.add_text(atom.content[0].strip())
 		else :
 			o_block = self.parse_alinea('|'.join(atom.content), atom.tag)
-			o_block.flag.add('block')
+			if len(atom.content) == 1 and '\n' in atom.content[0] :
+				o_block.flag.add('block')
 
 		if is_block and atom_res.group('ident') is not None :
 			o_block.ident = int(atom_res.group('ident').strip())

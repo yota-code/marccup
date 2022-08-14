@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import time
 
 import oaktree
@@ -13,6 +14,17 @@ from marccup.composer.html5 import Html5Composer
 from cc_pathlib import Path
 
 autotest_dir = Path(os.environ['MARCCUP_autotest_DIR'])
+
+def reset() :
+	for sub in sorted( autotest_dir ) :
+		if sub.is_dir() :
+			for src in sorted( sub / 'tst' ) :
+				print(sub.name, src.name)
+				dst = sub / 'ref' / src.name
+				dst.write_text( src.read_text() )
+
+#if sys.argv[1] == '--reset' :
+#	reset()
 
 basic_template = '''<!doctype html>
 <html lang="en">
@@ -147,16 +159,16 @@ for sub in sorted( autotest_dir ) :
 
 			content_html = '''<h2>parse: {0} - compose: {1}</h2>
 <table style="width:100%">
-	<tr><td colspan="2"><pre>{6}</pre></td></tr>
 	<tr><th width="50%">tst</th><th>ref</th></tr>
 	<tr class="sub_frame"><td><iframe src="tst/result.html"></iframe></td><td><iframe src="ref/result.html"></iframe></td></tr>
+	<tr><td colspan="2"><pre>{6}</pre></td></tr>
 	<tr><td><pre>{2}</pre></td><td><pre>{3}</pre></td></tr>
 	<tr><td><pre>{4}</pre></td><td><pre>{5}</pre></td></tr>
 </table>'''.format(
 				html_ok_ko(parse_ok), html_ok_ko(compose_ok),
 				protect( tst_temp_bkt ), protect( ref_temp_bkt ),
 				protect( tst_part_html.replace('><', '>\n<') ), protect( ref_part_html.replace('><', '>\n<') ),
-				(sub / 'source.mcp').read_text()
+				protect( (sub / 'source.mcp').read_text() )
 			)
 
 			(sub / "report.html").write_text( basic_template.format( name, content_html, "../report_style.css") )

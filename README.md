@@ -29,6 +29,11 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 mot::
 definition du mot
 
+## syntax
+
+* sup (^) and sub (_) can not contain alinea break
+* 
+
 ## List
 
 List can be nested. But a list item can only contain
@@ -54,3 +59,20 @@ A page consists of a combination of titles and blocks of text. Where the first t
 
 A document is contained in a folder which holds a __doc__.mcp file containing only the titles.
 
+## Highlight
+
+When it covers only a part of an alinea :
+
+    Curabitur molestie sapien lacus, !<ac aliquet neque blandit quis>. Vivamus eu neque quis mi ullamcorper condimentum.
+
+    <alinea|Curabitur molestie sapien lacus, <important {1}|ac aliquet neque blandit quis>. Vivamus eu neque quis mi ullamcorper condimentum.|>
+
+    <span>Curabitur molestie sapien lacus, <span class="mcp-important-1">ac aliquet neque blandit quis</span>. Vivamus eu neque quis mi ullamcorper condimentum.</span>
+
+When it covers a full alinea :
+
+    !<Curabitur molestie sapien lacus, ac aliquet neque blandit quis. Vivamus eu neque quis mi ullamcorper condimentum.>
+
+    <alinea important{1}|Curabitur molestie sapien lacus, \important<ac aliquet neque blandit quis|1>. Vivamus eu neque quis mi ullamcorper condimentum.|>
+
+    <span class="mcp-important-1">Curabitur molestie sapien lacus, ac aliquet neque blandit quis. Vivamus eu neque quis mi ullamcorper condimentum.</span>
