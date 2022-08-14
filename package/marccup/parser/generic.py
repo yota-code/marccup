@@ -10,52 +10,6 @@ from oaktree.proxy.braket import BraketProxy
 from marccup.parser.atom import Atom
 from marccup.parser.libre import *
 
-def find_all(txt, sub, offset=0) :
-	sub_lst = list()
-	i = txt.find(sub, 0)
-	while i >= 0:
-		sub_lst.append(i)
-		i = txt.find(sub, i+1)
-	return sub_lst
-
-def jump_to_closing(txt) :
-	d = 1
-	for n, c in enumerate(txt) :
-		if c == '<' :
-			d += 1
-		elif c == '>' :
-			d -= 1
-			if d == 0 :
-				return n
-
-def jump_to_closing_tag(txt, start) :
-	d = 1
-	n = start
-	while True :
-		c = txt[n]
-		if c == '<'  :
-			d += 1
-		elif c == '>' :
-			d -= 1
-			if d == 0 :
-				return n
-
-
-def pick_higher(x_lst, p) :
-	for x in x_lst :
-		if p < x :
-			return x
-	return None
-
-def trim_line(txt) :
-	""" remove empty lines at the begining or at the end of a stack, in place """
-	stack = txt.splitlines()
-	while stack and not stack[0].strip() :
-		stack.pop(0)
-	while stack and not stack[-1].strip() :
-		stack.pop(-1)
-	return stack
-
 class GenericParser() :
 
 	# def __init__(self, debug_dir=None) :
@@ -199,15 +153,16 @@ class GenericParser() :
 		# if title_res is not None : #
 		# 	o_section.grow('title', ident=title_res.group('ident')).add_text(title_res.group('title'))
 
-	def parse(self, txt, automatic=False) :
+	def parse(self, txt) :
 		""" parse a text zone (no title) can be an alinea, a paragraph or a section """
 
 		txt = self.expand_shortcut(txt)
 
 		txt = self.protect_atom(txt)
+
 		txt = self.clean_lines(txt)
 
-		if '\n\n' in txt or not automatic :
+		if '\n\n' in txt :
 			return self.parse_section(txt)
 		elif '\n' in txt :
 			return self.parse_paragraph(txt)
@@ -236,8 +191,9 @@ class GenericParser() :
 	def parse_paragraph(self, paragraph_txt) :
 		""" 
 		txt consists in, either :
+
 			* some alineas
-			* only one sole atom
+			* a single atom
 			* a bullet list
 		
 		"""
@@ -268,11 +224,10 @@ class GenericParser() :
 				# print(alinea_txt)
 				# let's check that is is a not a bullet of numbered list
 				if not bullet_list_rec.match(alinea_txt) :
-					# the paragraph is just made of alineas
-					# print("break")
+					# there is one normal alinea inside, not a bullet list
 					break
 			else :
-				# bullet !
+				# only bullets ! let's parse it
 				return self.parse_list(paragraph_txt)
 			
 		# no bullet
