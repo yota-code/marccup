@@ -1,0 +1,44 @@
+<div#main|
+	<section|
+		<p|
+			<span|
+				'Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.'
+			>
+			'\\n'
+			<span|
+				'Pellentesque sit amet consectetur augue, quis consectetur nibh.'
+			>
+			'\\n'
+		>
+		<ol|
+		>
+		<li|
+			'Sed sed mi libero.'
+			<li|
+				'Vivamus ut porta ligula.'
+				<ul|
+				>
+				<li|
+					'Etiam id aliquet nisl.'
+					<li|
+						'Quisque sit amet lacinia lectus'
+						<li|
+							'Integer ultricies '
+							<strong|
+							>
+							<strong|
+							>
+							' sollicitudin molestie.'
+						>
+					>
+				>
+			>
+		>
+		<p|
+			<span|
+				'Nulla ut massa quis eros varius elementum.'
+			>
+			'\\n'
+		>
+	>
+>

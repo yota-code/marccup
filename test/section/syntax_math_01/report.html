@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>syntax_math_01</title>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Inconsolata&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../report_style.css">
+</head>
+<body>
+<h2>parse: <span style="color:#0D0">OK</span> - compose: <span style="color:#0D0">OK</span></h2>
+<table style="width:100%">
+	<tr><th width="50%">tst</th><th>ref</th></tr>
+	<tr class="sub_frame"><td><iframe src="tst/result.html"></iframe></td><td><iframe src="ref/result.html"></iframe></td></tr>
+	<tr><td colspan="2"><pre>Phasellus bibendum vulputate interdum.
+Mauris egestas dolor in nibh lacinia tristique.
+
+$&lt;
+f(x) = \int_{-\infty}^\infty \hat f(\xi) \, e^{2 \pi i \xi x} \, d\xi
+&gt;
+
+Donec efficitur pulvinar lorem id efficitur.
+Interdum et malesuada $&lt; a^2 + b^2 = c^2 &gt; fames ac ante ipsum primis in faucibus.
+Phasellus bibendum vulputate interdum.</pre></td></tr>
+	<tr><td><pre>&lt;section|
+	&lt;paragraph|
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+		&lt;alinea|
+			'Mauris egestas dolor in nibh lacinia tristique.'
+		&gt;
+	&gt;
+	&lt;math block|
+		'f(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi) \\, e^{2 \\pi i \\xi x} \\, d\\xi'
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Donec efficitur pulvinar lorem id efficitur.'
+		&gt;
+		&lt;alinea|
+			'Interdum et malesuada '
+			&lt;math|
+				'a^2 + b^2 = c^2'
+			&gt;
+			' fames ac ante ipsum primis in faucibus.'
+		&gt;
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+	&gt;
+&gt;
+</pre></td><td><pre>&lt;section|
+	&lt;paragraph|
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+		&lt;alinea|
+			'Mauris egestas dolor in nibh lacinia tristique.'
+		&gt;
+	&gt;
+	&lt;math block|
+		'f(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi) \\, e^{2 \\pi i \\xi x} \\, d\\xi'
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Donec efficitur pulvinar lorem id efficitur.'
+		&gt;
+		&lt;alinea|
+			'Interdum et malesuada '
+			&lt;math|
+				'a^2 + b^2 = c^2'
+			&gt;
+			' fames ac ante ipsum primis in faucibus.'
+		&gt;
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+	&gt;
+&gt;
+</pre></td></tr>
+	<tr><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;span&gt;Mauris egestas dolor in nibh lacinia tristique.&lt;/span&gt;
+&lt;/p&gt;
+&lt;p class="mcp-math"&gt;f(x) = \int_{-\infty}^\infty \hat f(\xi) \, e^{2 \pi i \xi x} \, d\xi&lt;/p&gt;
+&lt;p&gt;
+&lt;span&gt;Donec efficitur pulvinar lorem id efficitur.&lt;/span&gt;
+&lt;span&gt;Interdum et malesuada &lt;span class="mcp-math"&gt;a^2 + b^2 = c^2&lt;/span&gt; fames ac ante ipsum primis in faucibus.&lt;/span&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;span&gt;Mauris egestas dolor in nibh lacinia tristique.&lt;/span&gt;
+&lt;/p&gt;
+&lt;p class="mcp-math"&gt;f(x) = \int_{-\infty}^\infty \hat f(\xi) \, e^{2 \pi i \xi x} \, d\xi&lt;/p&gt;
+&lt;p&gt;
+&lt;span&gt;Donec efficitur pulvinar lorem id efficitur.&lt;/span&gt;
+&lt;span&gt;Interdum et malesuada &lt;span class="mcp-math"&gt;a^2 + b^2 = c^2&lt;/span&gt; fames ac ante ipsum primis in faucibus.&lt;/span&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td></tr>
+</table>
+</body>
+</html>

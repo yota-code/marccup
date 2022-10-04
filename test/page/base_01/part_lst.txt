@@ -1,0 +1,38 @@
+blandit massa at, aliquam consequat erat. Duis ullamcorper
+nisi vel metus consequat rhoncus.
+
+Aliquam vel ATOM[0] lectus ullamcorper egestas.
+Nulla vitae quam dignissim
+---
+<re.Match object; span=(0, 46), match='= Sed rhoncus diam tortor, a vulputate mi §123'>
+---
+tincidunt idATOM[1]. Quisque a orci lacus. Nullam vel erat
+nec velit sollicitudin convallis eu non justo. ATOM[2] Nullam
+convallis suscipit nisi quis imperdiet.
+---
+<re.Match object; span=(0, 51), match='== Integer molestie libero sed magna fermentum §2>
+---
+<re.Match object; span=(0, 46), match='=== maximus. Aliquam sit amet iaculis dui §319'>
+---
+Pellentesque quis auctor elit. Donec imperdiet sem
+vitae libero facilisis imperdiet. Duis id mattis diam.
+Curabitur consequat viverra sapien,
+
+ATOM[3]
+
+non venenatis ligula pretium vel. In id urna
+sed metus tincidunt ultrices nec sed mi. Aliquam
+lectus ipsum, aliquet ac justo elementum,
+---
+<re.Match object; span=(0, 56), match='=== pretium faucibus sem. Pellentesque rhoncus el>
+---
+id diam fringilla, vel pulvinar nunc efficitur.
+Fusce pharetra augue a arcu volutpat vulputate. Praesent
+fermentum nisl libero. Donec tincidunt ultricies luctus.
+Suspendisse feugiat dui
+---
+<re.Match object; span=(0, 53), match='== in pharetra iaculis. Fusce eget gravida felis >
+---
+Aenean et tincidunt diam. Nunc suscipit iaculis
+nunc ac venenatis. Aliquam a nibh in odio ornare
+commodo at sed purus.

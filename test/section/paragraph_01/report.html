@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>paragraph_01</title>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Inconsolata&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../report_style.css">
+</head>
+<body>
+<h2>parse: <span style="color:#E00">KO</span> - compose: <span style="color:#E00">KO</span></h2>
+<table style="width:100%">
+	<tr><th width="50%">tst</th><th>ref</th></tr>
+	<tr class="sub_frame"><td><iframe src="tst/result.html"></iframe></td><td><iframe src="ref/result.html"></iframe></td></tr>
+	<tr><td colspan="2"><pre>Aenean et nulla porttitor, condimentum nunc eu, lacinia nisi. Sed maximus condimentum mauris in mattis.
+Integer pellentesque lorem sed turpis faucibus scelerisque. Suspendisse potenti.
+
+Aliquam ullamcorper dignissim eleifend. Nunc at rutrum metus, non convallis lectus.
+Cras neque mauris, gravida in porttitor et, pulvinar at lectus. Praesent eget nunc suscipit, facilisis orci eu, pharetra metus.
+Pellentesque sit amet bibendum nulla. Mauris aliquet pretium turpis, ut porttitor elit.
+
+Quisque quis cursus diam. Suspendisse venenatis porttitor diam quis porta. Nunc malesuada vehicula ullamcorper.
+Proin nec eros id dolor venenatis pretium nec eu arcu.
+Proin vitae quam nec nisl ornare finibus. Etiam iaculis massa vel nunc luctus aliquam.</pre></td></tr>
+	<tr><td><pre>&lt;section|
+	&lt;paragraph|
+		&lt;alinea|
+			'Aenean et nulla porttitor, condimentum nunc eu, lacinia nisi. Sed maximus condimentum mauris in mattis.'
+		&gt;
+		&lt;alinea|
+			'Integer pellentesque lorem sed turpis faucibus scelerisque. Suspendisse potenti.'
+		&gt;
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Aliquam ullamcorper dignissim eleifend. Nunc at rutrum metus, non convallis lectus.'
+		&gt;
+		&lt;alinea|
+			'Cras neque mauris, gravida in porttitor et, pulvinar at lectus. Praesent eget nunc suscipit, facilisis orci eu, pharetra metus.'
+		&gt;
+		&lt;alinea|
+			'Pellentesque sit amet bibendum nulla. Mauris aliquet pretium turpis, ut porttitor elit.'
+		&gt;
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Quisque quis cursus diam. Suspendisse venenatis porttitor diam quis porta. Nunc malesuada vehicula ullamcorper.'
+		&gt;
+		&lt;alinea|
+			'Proin nec eros id dolor venenatis pretium nec eu arcu.'
+		&gt;
+		&lt;alinea|
+			'Proin vitae quam nec nisl ornare finibus. Etiam iaculis massa vel nunc luctus aliquam.'
+		&gt;
+	&gt;
+&gt;
+</pre></td><td><pre>---</pre></td></tr>
+	<tr><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Aenean et nulla porttitor, condimentum nunc eu, lacinia nisi. Sed maximus condimentum mauris in mattis.&lt;/span&gt;
+&lt;span&gt;Integer pellentesque lorem sed turpis faucibus scelerisque. Suspendisse potenti.&lt;/span&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;span&gt;Aliquam ullamcorper dignissim eleifend. Nunc at rutrum metus, non convallis lectus.&lt;/span&gt;
+&lt;span&gt;Cras neque mauris, gravida in porttitor et, pulvinar at lectus. Praesent eget nunc suscipit, facilisis orci eu, pharetra metus.&lt;/span&gt;
+&lt;span&gt;Pellentesque sit amet bibendum nulla. Mauris aliquet pretium turpis, ut porttitor elit.&lt;/span&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;span&gt;Quisque quis cursus diam. Suspendisse venenatis porttitor diam quis porta. Nunc malesuada vehicula ullamcorper.&lt;/span&gt;
+&lt;span&gt;Proin nec eros id dolor venenatis pretium nec eu arcu.&lt;/span&gt;
+&lt;span&gt;Proin vitae quam nec nisl ornare finibus. Etiam iaculis massa vel nunc luctus aliquam.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Aenean et nulla porttitor, &lt;critical&gt;condimentum nunc eu, lacinia nisi&lt;/critical&gt;. Sed maximus condimentum mauris in mattis.&lt;/span&gt;
+&lt;span&gt;Integer pellentesque lorem sed turpis faucibus scelerisque. Suspendisse potenti.&lt;/span&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;span&gt;Aliquam ullamcorper &lt;em&gt;dignissim eleifend&lt;/em&gt;. Nunc at rutrum metus, non convallis lectus.&lt;/span&gt;
+&lt;span&gt;Cras neque mauris, gravida in porttitor et, pulvinar at lectus. Praesent eget nunc suscipit, facilisis orci eu, pharetra metus.&lt;/span&gt;
+&lt;span&gt;Pellentesque sit amet bibendum nulla. &lt;strong&gt;Mauris aliquet pretium turpis&lt;/strong&gt;, ut porttitor elit.&lt;/span&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;span&gt;Quisque quis cursus diam. Suspendisse venenatis porttitor diam quis porta. Nunc malesuada vehicula ullamcorper.&lt;/span&gt;
+&lt;span&gt;Proin nec eros id dolor venenatis pretium nec eu arcu.&lt;/span&gt;
+&lt;span&gt;Proin vitae quam nec nisl ornare finibus. Etiam iaculis massa vel nunc luctus aliquam.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td></tr>
+</table>
+</body>
+</html>

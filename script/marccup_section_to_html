@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+""" a section is a one or more paragraph, with an optionnal title """
+
+import sys
+
+from cc_pathlib import Path
+
+import oaktree
+
+import oaktree.proxy.braket
+import oaktree.proxy.html5
+
+import marccup
+
+import marccup.parser.section
+import marccup.composer.html5
+
+def section_to_html(txt_or_pth, debug=False) :
+
+	if isinstance(txt_or_pth, str) :
+		txt = txt_or_pth
+		debug = False
+	elif txt_or_pth.is_file() and txt_or_pth.suffix == '.mcp' :
+		pth = txt_or_pth
+		txt = pth.read_text()
+	else :
+		raise ValueError
+
+	m = marccup.parser.section.SectionParser()
+	o = m.parse_section(txt)
+
+	if debug :
+		b = oaktree.proxy.braket.BraketProxy()
+		b.save(o, pth.with_suffix('.bkt'))
+
+	c = marccup.composer.html5.Html5Composer().compose(o)
+	h = oaktree.proxy.html5.Html5Proxy(indent='\t', fragment=True)
+
+	if debug :
+		h.save(c, pth.with_suffix('.html'))
+
+	return h.save(c)
+
+if __name__ == '__main__' :
+
+	for fnm in sys.argv[1:] :
+		pth = Path(fnm).resolve()
+		section_to_html(pth, True)

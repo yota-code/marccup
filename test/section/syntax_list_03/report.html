@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>syntax_list_03</title>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Inconsolata&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../report_style.css">
+</head>
+<body>
+<h2>parse: <span style="color:#0D0">OK</span> - compose: <span style="color:#0D0">OK</span></h2>
+<table style="width:100%">
+	<tr><th width="50%">tst</th><th>ref</th></tr>
+	<tr class="sub_frame"><td><iframe src="tst/result.html"></iframe></td><td><iframe src="ref/result.html"></iframe></td></tr>
+	<tr><td colspan="2"><pre>Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.
+Pellentesque sit amet consectetur augue, quis consectetur nibh.
+
+# Sed sed mi libero.
+# Vivamus ut porta ligula.
+* Etiam id aliquet nisl.
+# Integer ultricies eros a enim sollicitudin molestie.
+
+Nulla ut massa quis eros varius elementum.
+Quisque sit amet lacinia lectus.</pre></td></tr>
+	<tr><td><pre>&lt;section|
+	&lt;paragraph|
+		&lt;alinea|
+			'Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.'
+		&gt;
+		&lt;alinea|
+			'Pellentesque sit amet consectetur augue, quis consectetur nibh.'
+		&gt;
+	&gt;
+	&lt;ol|
+		&lt;li|
+			'Sed sed mi libero.'
+		&gt;
+		&lt;li|
+			'Vivamus ut porta ligula.'
+		&gt;
+		&lt;li|
+			'Etiam id aliquet nisl.'
+		&gt;
+		&lt;li|
+			'Integer ultricies eros a enim sollicitudin molestie.'
+		&gt;
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Nulla ut massa quis eros varius elementum.'
+		&gt;
+		&lt;alinea|
+			'Quisque sit amet lacinia lectus.'
+		&gt;
+	&gt;
+&gt;
+</pre></td><td><pre>&lt;section|
+	&lt;paragraph|
+		&lt;alinea|
+			'Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.'
+		&gt;
+		&lt;alinea|
+			'Pellentesque sit amet consectetur augue, quis consectetur nibh.'
+		&gt;
+	&gt;
+	&lt;ol|
+		&lt;li|
+			'Sed sed mi libero.'
+		&gt;
+		&lt;li|
+			'Vivamus ut porta ligula.'
+		&gt;
+		&lt;li|
+			'Etiam id aliquet nisl.'
+		&gt;
+		&lt;li|
+			'Integer ultricies eros a enim sollicitudin molestie.'
+		&gt;
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Nulla ut massa quis eros varius elementum.'
+		&gt;
+		&lt;alinea|
+			'Quisque sit amet lacinia lectus.'
+		&gt;
+	&gt;
+&gt;
+</pre></td></tr>
+	<tr><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.&lt;/span&gt;
+&lt;span&gt;Pellentesque sit amet consectetur augue, quis consectetur nibh.&lt;/span&gt;
+&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Sed sed mi libero.&lt;/li&gt;
+&lt;li&gt;Vivamus ut porta ligula.&lt;/li&gt;
+&lt;li&gt;Etiam id aliquet nisl.&lt;/li&gt;
+&lt;li&gt;Integer ultricies eros a enim sollicitudin molestie.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
+&lt;span&gt;Nulla ut massa quis eros varius elementum.&lt;/span&gt;
+&lt;span&gt;Quisque sit amet lacinia lectus.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.&lt;/span&gt;
+&lt;span&gt;Pellentesque sit amet consectetur augue, quis consectetur nibh.&lt;/span&gt;
+&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Sed sed mi libero.&lt;/li&gt;
+&lt;li&gt;Vivamus ut porta ligula.&lt;/li&gt;
+&lt;li&gt;Etiam id aliquet nisl.&lt;/li&gt;
+&lt;li&gt;Integer ultricies eros a enim sollicitudin molestie.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
+&lt;span&gt;Nulla ut massa quis eros varius elementum.&lt;/span&gt;
+&lt;span&gt;Quisque sit amet lacinia lectus.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td></tr>
+</table>
+</body>
+</html>

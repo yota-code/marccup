@@ -1,0 +1,1361 @@
+[37m<page#0|
+>
+[0m
+
+"""blandit massa at, aliquam consequat erat. Duis ullamcorper
+nisi vel metus consequat rhoncus.
+
+Aliquam vel ATOM[0] lectus ullamcorper egestas.
+Nulla vitae quam dignissim"""
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+>
+[0m
+
+[36m<re.Match object; span=(0, 46), match='= Sed rhoncus diam tortor, a vulputate mi §123'>
+{'depth': '=', 'title': 'Sed rhoncus diam tortor, a vulputate mi', 'ident': '123'}[0m
+
+[33m0 -> <page#0> -> <page#0>[0m
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+	>
+>
+[0m
+
+"""tincidunt idATOM[1]. Quisque a orci lacus. Nullam vel erat
+nec velit sollicitudin convallis eu non justo. ATOM[2] Nullam
+convallis suscipit nisi quis imperdiet."""
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+>
+[0m
+
+[36m<re.Match object; span=(0, 51), match='== Integer molestie libero sed magna fermentum §2>
+{'depth': '==', 'title': 'Integer molestie libero sed magna fermentum', 'ident': '237'}[0m
+
+[33m0 -> <section#123> -> <section#123>[0m
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+		<section#237 depth{2}|
+			<title|
+				'Integer molestie libero sed magna fermentum'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+>
+[0m
+
+[36m<re.Match object; span=(0, 46), match='=== maximus. Aliquam sit amet iaculis dui §319'>
+{'depth': '===', 'title': 'maximus. Aliquam sit amet iaculis dui', 'ident': '319'}[0m
+
+[33m0 -> <section#237> -> <section#237>[0m
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+		<section#237 depth{2}|
+			<title|
+				'Integer molestie libero sed magna fermentum'
+			>
+			<section#319 depth{3}|
+				<title|
+					'maximus. Aliquam sit amet iaculis dui'
+				>
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+>
+[0m
+
+"""Pellentesque quis auctor elit. Donec imperdiet sem
+vitae libero facilisis imperdiet. Duis id mattis diam.
+Curabitur consequat viverra sapien,
+
+ATOM[3]
+
+non venenatis ligula pretium vel. In id urna
+sed metus tincidunt ultrices nec sed mi. Aliquam
+lectus ipsum, aliquet ac justo elementum,"""
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+		<section#237 depth{2}|
+			<title|
+				'Integer molestie libero sed magna fermentum'
+			>
+			<section#319 depth{3}|
+				<title|
+					'maximus. Aliquam sit amet iaculis dui'
+				>
+				<paragraph|
+					<alinea|
+						'Pellentesque quis auctor elit. Donec imperdiet sem'
+					>
+					<alinea|
+						'vitae libero facilisis imperdiet. Duis id mattis diam.'
+					>
+					<alinea|
+						'Curabitur consequat viverra sapien,'
+					>
+				>
+				<img {whaaa
+	03.png} {mééé} !is_block|
+					'\\n\\t02.png'
+				>
+				<paragraph|
+					<alinea|
+						'non venenatis ligula pretium vel. In id urna'
+					>
+					<alinea|
+						'sed metus tincidunt ultrices nec sed mi. Aliquam'
+					>
+					<alinea|
+						'lectus ipsum, aliquet ac justo elementum,'
+					>
+				>
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'Pellentesque quis auctor elit. Donec imperdiet sem'
+			>
+			<alinea|
+				'vitae libero facilisis imperdiet. Duis id mattis diam.'
+			>
+			<alinea|
+				'Curabitur consequat viverra sapien,'
+			>
+		>
+		<img {whaaa
+	03.png} {mééé} !is_block|
+			'\\n\\t02.png'
+		>
+		<paragraph|
+			<alinea|
+				'non venenatis ligula pretium vel. In id urna'
+			>
+			<alinea|
+				'sed metus tincidunt ultrices nec sed mi. Aliquam'
+			>
+			<alinea|
+				'lectus ipsum, aliquet ac justo elementum,'
+			>
+		>
+	>
+>
+[0m
+
+[36m<re.Match object; span=(0, 56), match='=== pretium faucibus sem. Pellentesque rhoncus el>
+{'depth': '===', 'title': 'pretium faucibus sem. Pellentesque rhoncus elit', 'ident': '324'}[0m
+
+[33m1 -> <section#319> -> <section#237>[0m
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+		<section#237 depth{2}|
+			<title|
+				'Integer molestie libero sed magna fermentum'
+			>
+			<section#319 depth{3}|
+				<title|
+					'maximus. Aliquam sit amet iaculis dui'
+				>
+				<paragraph|
+					<alinea|
+						'Pellentesque quis auctor elit. Donec imperdiet sem'
+					>
+					<alinea|
+						'vitae libero facilisis imperdiet. Duis id mattis diam.'
+					>
+					<alinea|
+						'Curabitur consequat viverra sapien,'
+					>
+				>
+				<img {whaaa
+	03.png} {mééé} !is_block|
+					'\\n\\t02.png'
+				>
+				<paragraph|
+					<alinea|
+						'non venenatis ligula pretium vel. In id urna'
+					>
+					<alinea|
+						'sed metus tincidunt ultrices nec sed mi. Aliquam'
+					>
+					<alinea|
+						'lectus ipsum, aliquet ac justo elementum,'
+					>
+				>
+			>
+			<section#324 depth{3}|
+				<title|
+					'pretium faucibus sem. Pellentesque rhoncus elit'
+				>
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'Pellentesque quis auctor elit. Donec imperdiet sem'
+			>
+			<alinea|
+				'vitae libero facilisis imperdiet. Duis id mattis diam.'
+			>
+			<alinea|
+				'Curabitur consequat viverra sapien,'
+			>
+		>
+		<img {whaaa
+	03.png} {mééé} !is_block|
+			'\\n\\t02.png'
+		>
+		<paragraph|
+			<alinea|
+				'non venenatis ligula pretium vel. In id urna'
+			>
+			<alinea|
+				'sed metus tincidunt ultrices nec sed mi. Aliquam'
+			>
+			<alinea|
+				'lectus ipsum, aliquet ac justo elementum,'
+			>
+		>
+	>
+>
+[0m
+
+"""id diam fringilla, vel pulvinar nunc efficitur.
+Fusce pharetra augue a arcu volutpat vulputate. Praesent
+fermentum nisl libero. Donec tincidunt ultricies luctus.
+Suspendisse feugiat dui"""
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+		<section#237 depth{2}|
+			<title|
+				'Integer molestie libero sed magna fermentum'
+			>
+			<section#319 depth{3}|
+				<title|
+					'maximus. Aliquam sit amet iaculis dui'
+				>
+				<paragraph|
+					<alinea|
+						'Pellentesque quis auctor elit. Donec imperdiet sem'
+					>
+					<alinea|
+						'vitae libero facilisis imperdiet. Duis id mattis diam.'
+					>
+					<alinea|
+						'Curabitur consequat viverra sapien,'
+					>
+				>
+				<img {whaaa
+	03.png} {mééé} !is_block|
+					'\\n\\t02.png'
+				>
+				<paragraph|
+					<alinea|
+						'non venenatis ligula pretium vel. In id urna'
+					>
+					<alinea|
+						'sed metus tincidunt ultrices nec sed mi. Aliquam'
+					>
+					<alinea|
+						'lectus ipsum, aliquet ac justo elementum,'
+					>
+				>
+			>
+			<section#324 depth{3}|
+				<title|
+					'pretium faucibus sem. Pellentesque rhoncus elit'
+				>
+				<paragraph|
+					<alinea|
+						'id diam fringilla, vel pulvinar nunc efficitur.'
+					>
+					<alinea|
+						'Fusce pharetra augue a arcu volutpat vulputate. Praesent'
+					>
+					<alinea|
+						'fermentum nisl libero. Donec tincidunt ultricies luctus.'
+					>
+					<alinea|
+						'Suspendisse feugiat dui'
+					>
+				>
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'Pellentesque quis auctor elit. Donec imperdiet sem'
+			>
+			<alinea|
+				'vitae libero facilisis imperdiet. Duis id mattis diam.'
+			>
+			<alinea|
+				'Curabitur consequat viverra sapien,'
+			>
+		>
+		<img {whaaa
+	03.png} {mééé} !is_block|
+			'\\n\\t02.png'
+		>
+		<paragraph|
+			<alinea|
+				'non venenatis ligula pretium vel. In id urna'
+			>
+			<alinea|
+				'sed metus tincidunt ultrices nec sed mi. Aliquam'
+			>
+			<alinea|
+				'lectus ipsum, aliquet ac justo elementum,'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'id diam fringilla, vel pulvinar nunc efficitur.'
+			>
+			<alinea|
+				'Fusce pharetra augue a arcu volutpat vulputate. Praesent'
+			>
+			<alinea|
+				'fermentum nisl libero. Donec tincidunt ultricies luctus.'
+			>
+			<alinea|
+				'Suspendisse feugiat dui'
+			>
+		>
+	>
+>
+[0m
+
+[36m<re.Match object; span=(0, 53), match='== in pharetra iaculis. Fusce eget gravida felis >
+{'depth': '==', 'title': 'in pharetra iaculis. Fusce eget gravida felis', 'ident': '226'}[0m
+
+[33m2 -> <section#324> -> <section#123>[0m
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+		<section#237 depth{2}|
+			<title|
+				'Integer molestie libero sed magna fermentum'
+			>
+			<section#319 depth{3}|
+				<title|
+					'maximus. Aliquam sit amet iaculis dui'
+				>
+				<paragraph|
+					<alinea|
+						'Pellentesque quis auctor elit. Donec imperdiet sem'
+					>
+					<alinea|
+						'vitae libero facilisis imperdiet. Duis id mattis diam.'
+					>
+					<alinea|
+						'Curabitur consequat viverra sapien,'
+					>
+				>
+				<img {whaaa
+	03.png} {mééé} !is_block|
+					'\\n\\t02.png'
+				>
+				<paragraph|
+					<alinea|
+						'non venenatis ligula pretium vel. In id urna'
+					>
+					<alinea|
+						'sed metus tincidunt ultrices nec sed mi. Aliquam'
+					>
+					<alinea|
+						'lectus ipsum, aliquet ac justo elementum,'
+					>
+				>
+			>
+			<section#324 depth{3}|
+				<title|
+					'pretium faucibus sem. Pellentesque rhoncus elit'
+				>
+				<paragraph|
+					<alinea|
+						'id diam fringilla, vel pulvinar nunc efficitur.'
+					>
+					<alinea|
+						'Fusce pharetra augue a arcu volutpat vulputate. Praesent'
+					>
+					<alinea|
+						'fermentum nisl libero. Donec tincidunt ultricies luctus.'
+					>
+					<alinea|
+						'Suspendisse feugiat dui'
+					>
+				>
+			>
+		>
+		<section#226 depth{2}|
+			<title|
+				'in pharetra iaculis. Fusce eget gravida felis'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'Pellentesque quis auctor elit. Donec imperdiet sem'
+			>
+			<alinea|
+				'vitae libero facilisis imperdiet. Duis id mattis diam.'
+			>
+			<alinea|
+				'Curabitur consequat viverra sapien,'
+			>
+		>
+		<img {whaaa
+	03.png} {mééé} !is_block|
+			'\\n\\t02.png'
+		>
+		<paragraph|
+			<alinea|
+				'non venenatis ligula pretium vel. In id urna'
+			>
+			<alinea|
+				'sed metus tincidunt ultrices nec sed mi. Aliquam'
+			>
+			<alinea|
+				'lectus ipsum, aliquet ac justo elementum,'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'id diam fringilla, vel pulvinar nunc efficitur.'
+			>
+			<alinea|
+				'Fusce pharetra augue a arcu volutpat vulputate. Praesent'
+			>
+			<alinea|
+				'fermentum nisl libero. Donec tincidunt ultricies luctus.'
+			>
+			<alinea|
+				'Suspendisse feugiat dui'
+			>
+		>
+	>
+>
+[0m
+
+"""Aenean et tincidunt diam. Nunc suscipit iaculis
+nunc ac venenatis. Aliquam a nibh in odio ornare
+commodo at sed purus."""
+
+[37m<page#0|
+	<section|
+		<paragraph|
+			<alinea|
+				'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+			>
+			<alinea|
+				'nisi vel metus consequat rhoncus.'
+			>
+		>
+		<paragraph|
+			<alinea|
+				'Aliquam vel '
+				<strong|
+					'nunc id'
+				>
+				' lectus ullamcorper egestas.'
+			>
+			<alinea|
+				'Nulla vitae quam dignissim'
+			>
+		>
+	>
+	<paragraph|
+		<alinea|
+			'blandit massa at, aliquam consequat erat. Duis ullamcorper'
+		>
+		<alinea|
+			'nisi vel metus consequat rhoncus.'
+		>
+	>
+	<paragraph|
+		<alinea|
+			'Aliquam vel '
+			<strong|
+				'nunc id'
+			>
+			' lectus ullamcorper egestas.'
+		>
+		<alinea|
+			'Nulla vitae quam dignissim'
+		>
+	>
+	<section#123 depth{1}|
+		<title|
+			'Sed rhoncus diam tortor, a vulputate mi'
+		>
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+		<section#237 depth{2}|
+			<title|
+				'Integer molestie libero sed magna fermentum'
+			>
+			<section#319 depth{3}|
+				<title|
+					'maximus. Aliquam sit amet iaculis dui'
+				>
+				<paragraph|
+					<alinea|
+						'Pellentesque quis auctor elit. Donec imperdiet sem'
+					>
+					<alinea|
+						'vitae libero facilisis imperdiet. Duis id mattis diam.'
+					>
+					<alinea|
+						'Curabitur consequat viverra sapien,'
+					>
+				>
+				<img {whaaa
+	03.png} {mééé} !is_block|
+					'\\n\\t02.png'
+				>
+				<paragraph|
+					<alinea|
+						'non venenatis ligula pretium vel. In id urna'
+					>
+					<alinea|
+						'sed metus tincidunt ultrices nec sed mi. Aliquam'
+					>
+					<alinea|
+						'lectus ipsum, aliquet ac justo elementum,'
+					>
+				>
+			>
+			<section#324 depth{3}|
+				<title|
+					'pretium faucibus sem. Pellentesque rhoncus elit'
+				>
+				<paragraph|
+					<alinea|
+						'id diam fringilla, vel pulvinar nunc efficitur.'
+					>
+					<alinea|
+						'Fusce pharetra augue a arcu volutpat vulputate. Praesent'
+					>
+					<alinea|
+						'fermentum nisl libero. Donec tincidunt ultricies luctus.'
+					>
+					<alinea|
+						'Suspendisse feugiat dui'
+					>
+				>
+			>
+		>
+		<section#226 depth{2}|
+			<title|
+				'in pharetra iaculis. Fusce eget gravida felis'
+			>
+			<paragraph|
+				<alinea|
+					'Aenean et tincidunt diam. Nunc suscipit iaculis'
+				>
+				<alinea|
+					'nunc ac venenatis. Aliquam a nibh in odio ornare'
+				>
+				<alinea|
+					'commodo at sed purus.'
+				>
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'tincidunt id'
+				<sup|
+					'2'
+				>
+				'. Quisque a orci lacus. Nullam vel erat'
+			>
+			<alinea|
+				'nec velit sollicitudin convallis eu non justo. '
+				<img {voilà}|
+					'01.png'
+				>
+				' Nullam'
+			>
+			<alinea|
+				'convallis suscipit nisi quis imperdiet.'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'Pellentesque quis auctor elit. Donec imperdiet sem'
+			>
+			<alinea|
+				'vitae libero facilisis imperdiet. Duis id mattis diam.'
+			>
+			<alinea|
+				'Curabitur consequat viverra sapien,'
+			>
+		>
+		<img {whaaa
+	03.png} {mééé} !is_block|
+			'\\n\\t02.png'
+		>
+		<paragraph|
+			<alinea|
+				'non venenatis ligula pretium vel. In id urna'
+			>
+			<alinea|
+				'sed metus tincidunt ultrices nec sed mi. Aliquam'
+			>
+			<alinea|
+				'lectus ipsum, aliquet ac justo elementum,'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'id diam fringilla, vel pulvinar nunc efficitur.'
+			>
+			<alinea|
+				'Fusce pharetra augue a arcu volutpat vulputate. Praesent'
+			>
+			<alinea|
+				'fermentum nisl libero. Donec tincidunt ultricies luctus.'
+			>
+			<alinea|
+				'Suspendisse feugiat dui'
+			>
+		>
+	>
+	<section|
+		<paragraph|
+			<alinea|
+				'Aenean et tincidunt diam. Nunc suscipit iaculis'
+			>
+			<alinea|
+				'nunc ac venenatis. Aliquam a nibh in odio ornare'
+			>
+			<alinea|
+				'commodo at sed purus.'
+			>
+		>
+	>
+>
+[0m

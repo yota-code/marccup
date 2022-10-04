@@ -1,0 +1,47 @@
+<div#main|
+	<section|
+		<p|
+			<span|
+				'Aenean et nulla porttitor, condimentum nunc eu, lacinia nisi. Sed maximus condimentum mauris in mattis.'
+			>
+			'\\n'
+			<span|
+				'Integer pellentesque lorem sed turpis faucibus scelerisque. Suspendisse potenti.'
+			>
+			'\\n'
+		>
+		<p|
+			<span|
+				'Aliquam ullamcorper dignissim eleifend. Nunc at rutrum metus, non convallis lectus.'
+			>
+			'\\n'
+			<span|
+				'Cras '
+				<strong|
+				>
+				<strong|
+				>
+				'. Praesent eget nunc suscipit, facilisis orci eu, pharetra metus.'
+			>
+			'\\n'
+			<span|
+				'Pellentesque sit amet bibendum nulla. Mauris aliquet pretium turpis, ut porttitor elit.'
+			>
+			'\\n'
+		>
+		<p|
+			<span|
+				'Quisque quis cursus diam. Suspendisse venenatis porttitor diam quis porta. Nunc malesuada vehicula ullamcorper.'
+			>
+			'\\n'
+			<span|
+				'Proin nec eros id dolor venenatis pretium nec eu arcu.'
+			>
+			'\\n'
+			<span|
+				'Proin vitae quam nec nisl ornare finibus. Etiam iaculis massa vel nunc luctus aliquam.'
+			>
+			'\\n'
+		>
+	>
+>

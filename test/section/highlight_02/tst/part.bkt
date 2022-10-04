@@ -1,0 +1,55 @@
+<div#main|
+	<section|
+		<p|
+			<span|
+				'Aenean et nulla porttitor, condimentum nunc eu, lacinia nisi. Sed maximus condimentum mauris in mattis.'
+			>
+			'\\n'
+			<span|
+				'Integer pellentesque '
+				<strong|
+				>
+				<strong|
+				>
+				' faucibus scelerisque. Suspendisse potenti.'
+			>
+			'\\n'
+		>
+		<p|
+			<span|
+				'Aliquam ullamcorper '
+				<strong|
+				>
+				<strong|
+				>
+				'. Nunc at rutrum metus, non convallis lectus.'
+			>
+			'\\n'
+			<span|
+				<strong|
+				>
+				<strong|
+				>
+			>
+			'\\n'
+			<span|
+				'Pellentesque sit amet bibendum nulla. Mauris aliquet pretium turpis, ut porttitor elit.'
+			>
+			'\\n'
+		>
+		<span @mcp-critical|
+		>
+		'\\n'
+		<p|
+			<span|
+				<span @mcp-critical|
+				>
+				'\\n'
+				<span @mcp-critical|
+				>
+				'\\n'
+			>
+			'\\n'
+		>
+	>
+>

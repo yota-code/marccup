@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import oaktree
+
 """ this class take a parsed marccup as an oaktree, and transform it into an html5 tree """
 
 class AutomaticTitle() :
@@ -29,8 +31,12 @@ class Html5Composer() :
 		"important": "strong"
 	}
 
-	def __init__(self) :
-		self.title_num = AutomaticTitle()
+	def __init__(self, title_num=None) :
+		# title num est le numero à partir du quel commencer sous la forme d'un tuple
+		if title_num is None :
+			self.title_num = None
+		else :
+			self.title_num = AutomaticTitle(title_num)
 
 	# def compose(self, src, dst) :
 	# 	# print(f"convert({src}, {dst})")
@@ -50,7 +56,11 @@ class Html5Composer() :
 	# 					dst_sub = dst.grow(src_sub.tag)
 	# 					self.compose(src_sub, dst_sub)
 
-	def compose(self, child_src, parent_dst) :
+	def compose(self, child_src, parent_dst=None) :
+
+		if parent_dst is None :
+			parent_dst = oaktree.Leaf('_tmp_')
+
 		if isinstance(child_src, str) :
 			parent_dst.add_text(child_src)
 		else :
@@ -78,14 +88,24 @@ class Html5Composer() :
 				for sub_src in child_src.sub :
 					self.compose(sub_src, sub_dst)
 
+		return parent_dst
+
 	def _compose_title(self, src, dst) :
-		d = len(src.ancestor_lst) - 3
 
-		self.title_num.increment(d)
+		if self.title_num is None :
+			depth = 1
+			if src.parent.tag == 'section' and 'depth' in src.parent.nam :
+				depth = int( src.parent.nam['depth'] )
+			sub = dst.grow(f'h{depth}')
+			return sub, True
+		else :
+			d = len(src.ancestor_lst) - 3
 
-		sub_dst = dst.grow(f'h{d+1}').add_text(str(self.title_num))
+			self.title_num.increment(d)
 
-		return sub_dst, True
+			sub_dst = dst.grow(f'h{d+1}').add_text(str(self.title_num))
+
+			return sub_dst, True
 
 	def _compose_quote(self, src, dst) :
 		if 'block' in src.flag :
@@ -120,6 +140,10 @@ class Html5Composer() :
 
 		sub_dst.add_text(''.join(src.sub))
 
+		return sub_dst, False
+
+	def _compose_img(self, src, dst) :
+		sub_dst = dst.grow('img', nam={'src':f"img/{src.sub[0].strip()}"})
 		return sub_dst, False	
 
 	def _compose_critical(self, src, dst) :

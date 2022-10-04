@@ -1,0 +1,195 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import time
+
+import oaktree
+
+from oaktree.proxy.braket import BraketProxy
+from oaktree.proxy.html5 import Html5Proxy
+
+from marccup.parser.section import SectionParser
+from marccup.composer.html5 import Html5Composer
+
+from cc_pathlib import Path
+
+autotest_dir = Path(os.environ['MARCCUP_autotest_DIR'])
+
+def reset() :
+	for sub in sorted( autotest_dir ) :
+		if sub.is_dir() :
+			for src in sorted( sub / 'tst' ) :
+				print(sub.name, src.name)
+				dst = sub / 'ref' / src.name
+				dst.write_text( src.read_text() )
+
+#if sys.argv[1] == '--reset' :
+#	reset()
+
+basic_template = '''<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{0}</title>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Inconsolata&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{2}">
+</head>
+<body>
+{1}
+</body>
+</html>'''
+
+page_template = '''<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{0}</title>
+	<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Inconsolata&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../../page_style.css">
+	<script>
+
+function mathjax_render(input, output, display) {{
+	// https://mathjax.github.io/MathJax-demos-web/input-tex2svg.html
+	output.innerHTML = '';
+	
+	// Reset the tex labels (and automatic equation numbers, though there aren't any here).
+	MathJax.texReset();
+
+	// Get the conversion options (metrics and display settings)
+	var options = MathJax.getMetricsFor(output);
+	options.display = display;
+
+	MathJax.tex2svgPromise(input, options).then(function (node) {{
+		output.appendChild(node);
+	}}).catch(function (err) {{
+		// If there was an error, put the message into the output instead
+		output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
+	}}).then(function () {{
+		// do nothing
+	}});
+}}
+
+	</script>
+</head>
+<body>
+{1}
+<script>
+
+for (let h_block of document.querySelectorAll("p.mcp-math")) {{
+	console.log(h_block.textContent);
+	mathjax_render(h_block.textContent.trim(), h_block, true);
+}}
+for (let h_inline of document.querySelectorAll("span.mcp-math")) {{
+	console.log(h_inline.textContent);
+	mathjax_render(h_inline.textContent.trim(), h_inline, false);
+}}
+
+MathJax.startup.document.clear();
+MathJax.startup.document.updateDocument();
+</script>
+</body>
+</html>'''
+
+b = BraketProxy()
+m = Html5Proxy(indent='', fragment=True)
+
+q = Html5Composer()
+
+def html_ok_ko(x) :
+	return '<span style="color:#0D0">OK</span>' if x else '<span style="color:#E00">KO</span>'	
+
+def shell_ok_ko(x) :
+	return '\x1b[32mOK\x1b[0m' if x else '\x1b[31mKO\x1b[0m'	
+
+def protect(s) :
+	s = s.replace('<', '&lt;')
+	s = s.replace('>', '&gt;')
+	s = s.replace('\|', '&vert;')
+	return s
+
+def open_file(sub, mode, name) :
+	pth = sub / mode / name
+	if pth.is_file() :
+		return pth.read_text()
+	else :
+		return '---'
+
+result_lst = list()
+
+def test(sub) :
+	if sub.is_dir() :
+		pth = sub / 'source.mcp'
+		if pth.is_file() :
+			print(f'\x1b[35m{sub / "source.mcp"}\x1b[0m')
+
+			(sub / 'tst').make_dirs()
+			(sub / 'ref').make_dirs()
+
+			u = SectionParser(None, pth.parent).parse(pth.read_text())
+
+			b.save(u, sub / 'tst' / "tree.bkt")
+
+			h = oaktree.Leaf('div', ident='main')
+			q.compose(u, h)
+
+			m.save(h, sub / 'tst' / "part.html")
+			b.save(h, sub / 'tst' / "part.bkt")
+
+			tst_temp_bkt = open_file(sub, 'tst', "tree.bkt")
+			tst_part_html = open_file(sub, 'tst', "part.html")
+
+			tst_result_html = page_template.format( sub.name, tst_part_html )
+			(sub / 'tst' / "result.html").write_text( tst_result_html )
+
+			if not (sub / 'ref' / "result.html").is_file() :
+				(sub / 'ref' / "result.html").write_text( tst_result_html )
+				(sub / 'ref' / "temp.bkt").write_text( tst_temp_bkt )
+				(sub / 'ref' / "part.html").write_text( tst_part_html )
+
+			ref_temp_bkt = open_file(sub, 'ref', "tree.bkt")
+			ref_part_html = open_file(sub, 'ref', "part.html")
+
+			parse_ok = ( tst_temp_bkt == ref_temp_bkt )
+			compose_ok = ( tst_part_html == ref_part_html )
+
+			result_lst.append([sub.name, parse_ok, compose_ok])
+
+			content_html = '''<h2>parse: {0} - compose: {1}</h2>
+<table style="width:100%">
+	<tr><th width="50%">tst</th><th>ref</th></tr>
+	<tr class="sub_frame"><td><iframe src="tst/result.html"></iframe></td><td><iframe src="ref/result.html"></iframe></td></tr>
+	<tr><td colspan="2"><pre>{6}</pre></td></tr>
+	<tr><td><pre>{2}</pre></td><td><pre>{3}</pre></td></tr>
+	<tr><td><pre>{4}</pre></td><td><pre>{5}</pre></td></tr>
+</table>'''.format(
+				html_ok_ko(parse_ok), html_ok_ko(compose_ok),
+				protect( tst_temp_bkt ), protect( ref_temp_bkt ),
+				protect( tst_part_html.replace('><', '>\n<') ), protect( ref_part_html.replace('><', '>\n<') ),
+				protect( (sub / 'source.mcp').read_text() )
+			)
+
+			(sub / "report.html").write_text( basic_template.format(sub.name, content_html, "../report_style.css") )
+
+			print(f'{sub.name} ... {shell_ok_ko(parse_ok)} {shell_ok_ko(compose_ok)}')
+
+
+if __name__ == '__main__' :
+	if 1 < len(sys.argv) :
+		for sub in sys.argv[1:] :
+			test(Path(sub).resolve())
+
+	else :
+		section_dir = Path(__file__).parent
+		for sub in sorted(section_dir) :
+			test(sub)
+
+		content_html = 	'''<h1>autotest results</h1>
+		<table><tr><td>test name</td><td>parse</td><td>compose</td></tr>
+		{0}
+		</table>'''.format('\n'.join(
+			f'<tr><td><a href="{name}/report.html">{name}</a></td><td>{html_ok_ko(parse_st)}</td><td>{html_ok_ko(compose_st)}</td></tr>'
+			for name, parse_st, compose_st in result_lst
+		))
+		(section_dir / "index.html").write_text(basic_template.format("autotest", content_html, "report_style.css"))

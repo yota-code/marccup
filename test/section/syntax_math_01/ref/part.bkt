@@ -1,0 +1,35 @@
+<div#main|
+	<section|
+		<p|
+			<span|
+				'Phasellus bibendum vulputate interdum.'
+			>
+			'\\n'
+			<span|
+				'Mauris egestas dolor in nibh lacinia tristique.'
+			>
+			'\\n'
+		>
+		<p @mcp-math|
+			'f(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi) \\, e^{2 \\pi i \\xi x} \\, d\\xi'
+		>
+		<p|
+			<span|
+				'Donec efficitur pulvinar lorem id efficitur.'
+			>
+			'\\n'
+			<span|
+				'Interdum et malesuada '
+				<span @mcp-math|
+					'a^2 + b^2 = c^2'
+				>
+				' fames ac ante ipsum primis in faucibus.'
+			>
+			'\\n'
+			<span|
+				'Phasellus bibendum vulputate interdum.'
+			>
+			'\\n'
+		>
+	>
+>

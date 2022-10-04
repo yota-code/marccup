@@ -1,0 +1,27 @@
+ORIGINAL :: """Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.
+Pellentesque sit amet consectetur augue, quis consectetur nibh.
+
+# Sed sed mi libero.
+# Vivamus ut porta ligula.
+	* Etiam id aliquet nisl.
+	* Quisque sit amet lacinia lectus
+# Integer ultricies !!<eros a enim> sollicitudin molestie.
+
+Nulla ut massa quis eros varius elementum."""
+
+----
+
+CLEANED :: """Nam gravida nulla accumsan, pretium ex vitae, ullamcorper ex.
+Pellentesque sit amet consectetur augue, quis consectetur nibh.
+
+# Sed sed mi libero.
+# Vivamus ut porta ligula.
+	* Etiam id aliquet nisl.
+	* Quisque sit amet lacinia lectus
+# Integer ultricies ATOM[0] sollicitudin molestie.
+
+Nulla ut massa quis eros varius elementum."""
+
+----
+
+0 :: (None, 'important', 'eros a enim')

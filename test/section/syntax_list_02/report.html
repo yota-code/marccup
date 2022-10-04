@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>syntax_list_02</title>
+	<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Inconsolata&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../report_style.css">
+</head>
+<body>
+<h2>parse: <span style="color:#0D0">OK</span> - compose: <span style="color:#0D0">OK</span></h2>
+<table style="width:100%">
+	<tr><th width="50%">tst</th><th>ref</th></tr>
+	<tr class="sub_frame"><td><iframe src="tst/result.html"></iframe></td><td><iframe src="ref/result.html"></iframe></td></tr>
+	<tr><td colspan="2"><pre>Phasellus bibendum vulputate interdum.
+
+# Mauris egestas dolor in nibh lacinia tristique.
+# Donec efficitur pulvinar lorem id efficitur.
+# Interdum et malesuada fames ac ante ipsum primis in faucibus.
+
+Phasellus bibendum vulputate interdum.</pre></td></tr>
+	<tr><td><pre>&lt;section|
+	&lt;paragraph|
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+	&gt;
+	&lt;ol|
+		&lt;li|
+			'Mauris egestas dolor in nibh lacinia tristique.'
+		&gt;
+		&lt;li|
+			'Donec efficitur pulvinar lorem id efficitur.'
+		&gt;
+		&lt;li|
+			'Interdum et malesuada fames ac ante ipsum primis in faucibus.'
+		&gt;
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+	&gt;
+&gt;
+</pre></td><td><pre>&lt;section|
+	&lt;paragraph|
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+	&gt;
+	&lt;ol|
+		&lt;li|
+			'Mauris egestas dolor in nibh lacinia tristique.'
+		&gt;
+		&lt;li|
+			'Donec efficitur pulvinar lorem id efficitur.'
+		&gt;
+		&lt;li|
+			'Interdum et malesuada fames ac ante ipsum primis in faucibus.'
+		&gt;
+	&gt;
+	&lt;paragraph|
+		&lt;alinea|
+			'Phasellus bibendum vulputate interdum.'
+		&gt;
+	&gt;
+&gt;
+</pre></td></tr>
+	<tr><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Mauris egestas dolor in nibh lacinia tristique.&lt;/li&gt;
+&lt;li&gt;Donec efficitur pulvinar lorem id efficitur.&lt;/li&gt;
+&lt;li&gt;Interdum et malesuada fames ac ante ipsum primis in faucibus.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td><td><pre>&lt;div id="main"&gt;
+&lt;section&gt;
+&lt;p&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Mauris egestas dolor in nibh lacinia tristique.&lt;/li&gt;
+&lt;li&gt;Donec efficitur pulvinar lorem id efficitur.&lt;/li&gt;
+&lt;li&gt;Interdum et malesuada fames ac ante ipsum primis in faucibus.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
+&lt;span&gt;Phasellus bibendum vulputate interdum.&lt;/span&gt;
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;/div&gt;</pre></td></tr>
+</table>
+</body>
+</html>

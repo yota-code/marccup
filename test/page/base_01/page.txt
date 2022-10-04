@@ -1,0 +1,43 @@
+"""blandit massa at, aliquam consequat erat. Duis ullamcorper
+nisi vel metus consequat rhoncus.
+
+Aliquam vel ATOM[0] lectus ullamcorper egestas.
+Nulla vitae quam dignissim"""
+---
+[35m<re.Match object; span=(0, 46), match='= Sed rhoncus diam tortor, a vulputate mi §123'>
+{'depth': '=', 'title': 'Sed rhoncus diam tortor, a vulputate mi', 'ident': '123'}[0m
+---
+"""tincidunt idATOM[1]. Quisque a orci lacus. Nullam vel erat
+nec velit sollicitudin convallis eu non justo. ATOM[2] Nullam
+convallis suscipit nisi quis imperdiet."""
+---
+[35m<re.Match object; span=(0, 51), match='== Integer molestie libero sed magna fermentum §2>
+{'depth': '==', 'title': 'Integer molestie libero sed magna fermentum', 'ident': '237'}[0m
+---
+[35m<re.Match object; span=(0, 46), match='=== maximus. Aliquam sit amet iaculis dui §319'>
+{'depth': '===', 'title': 'maximus. Aliquam sit amet iaculis dui', 'ident': '319'}[0m
+---
+"""Pellentesque quis auctor elit. Donec imperdiet sem
+vitae libero facilisis imperdiet. Duis id mattis diam.
+Curabitur consequat viverra sapien,
+
+ATOM[3]
+
+non venenatis ligula pretium vel. In id urna
+sed metus tincidunt ultrices nec sed mi. Aliquam
+lectus ipsum, aliquet ac justo elementum,"""
+---
+[35m<re.Match object; span=(0, 56), match='=== pretium faucibus sem. Pellentesque rhoncus el>
+{'depth': '===', 'title': 'pretium faucibus sem. Pellentesque rhoncus elit', 'ident': '324'}[0m
+---
+"""id diam fringilla, vel pulvinar nunc efficitur.
+Fusce pharetra augue a arcu volutpat vulputate. Praesent
+fermentum nisl libero. Donec tincidunt ultricies luctus.
+Suspendisse feugiat dui"""
+---
+[35m<re.Match object; span=(0, 53), match='== in pharetra iaculis. Fusce eget gravida felis >
+{'depth': '==', 'title': 'in pharetra iaculis. Fusce eget gravida felis', 'ident': '226'}[0m
+---
+"""Aenean et tincidunt diam. Nunc suscipit iaculis
+nunc ac venenatis. Aliquam a nibh in odio ornare
+commodo at sed purus."""

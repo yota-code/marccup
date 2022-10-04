@@ -5,26 +5,32 @@ import hashlib
 from cc_pathlib import Path
 
 import oaktree
+
 from oaktree.proxy.braket import BraketProxy
 
 from marccup.parser.atom import Atom
+
+from marccup.parser.common import *
 from marccup.parser.libre import *
 
 class GenericParser() :
 
 	# def __init__(self, debug_dir=None) :
-	def __init__(self) :
+	def __init__(self, debug_dir=None) :
 
-		# self.debug_dir = debug_dir
-		# if self.debug_dir is not None :
-		# 	self.debug_dir.make_dirs()
-		# self.debug_index = 0
+		self.debug_dir = debug_dir
+		if self.debug_dir is not None :
+			self.debug_dir.make_dirs()
+		self.debug_index = 0
 
 		self.atom_map = dict()
 		self.atom_index = 0
 
 	def dbg(self, name, * value_lst) :
-		return
+
+		if self.debug_dir is None :
+			return
+			
 		h = hashlib.blake2b(value_lst[0].encode('utf8')).hexdigest()[:8]
 		if self.debug_dir is not None :
 			pth = (self.debug_dir / f"{self.debug_index:02d}.{h}.{name}")
@@ -32,26 +38,12 @@ class GenericParser() :
 			pth.write_text(('\n' + '─' * 96 + '\n').join(str(value) for value in value_lst))
 			self.debug_index += 1
 
-	shortcut_lst = [
-		['!!!', 'high_3'],
-		['!!', 'high_2'],
-		['!', 'high_1'],
-		["'", 'code'],
-		['"', 'quote'],
-		['$', 'math'],
-		['#', 'number'],
-		['%', 'table'],
-		['@', 'link'],
-		['&', 'note'],
-		['^', 'sup'],
-		['_', 'sub'],
-	]
 
 	def clean_lines(self, txt) :
 		# right trim each line
 		lst = [ line.rstrip() for line in txt.splitlines() ]
 
-		# remove empty lines at start or at the end
+		# remove empty lines at start or at the end of the block
 		while lst and not lst[0].strip() :
 			lst.pop(0)
 		while lst and not lst[-1].strip() :
@@ -63,66 +55,9 @@ class GenericParser() :
 
 		return txt
 
-	def expand_shortcut(self, txt) :
-		# to do once for all on the initial text
 
-		initial_txt = txt
 
-		txt = txt.replace('\>', '&gt;')
-		txt = txt.replace('\<', '&lt;')
-		txt = txt.replace('\|', '&vert;')
-		txt = txt.replace('\\\\', '&bsol;')
 
-		for a, b in self.shortcut_lst :
-			txt = txt.replace(a + '<', f'\\' + b + '<')
-
-		self.dbg(f'expand_shortcut.txt', initial_txt, txt)
-
-		return txt
-
-	def protect_atom(self, txt) :
-		""" on ne protège que le premier niveau, ça permet de ne garder que la structure générale du document """
-
-		initial_txt = txt
-		
-		# first the triple blocks
-		txt = self._to_atom(txt, block_rec, '>>>')
-
-		# then the single ones
-		txt = self._to_atom(txt, line_rec, '>')
-
-		self.dbg(f"protect_atom.txt", initial_txt, txt, '\n'.join(f'{k} : {v}' for k, v in self.atom_map.items()))
-
-		return txt
-
-	def _to_atom(self, txt, start_rec, end_pattern) :
-
-		start_lst = [(res.start(), res, 'start') for res in start_rec.finditer(txt)]
-		end_lst = [(i, None, 'end') for i in find_all(txt, end_pattern)]
-
-		marker_lst = sorted(start_lst + end_lst, key=(lambda x : x[0]))
-
-		depth = 0
-		prev = None
-		match = None
-		stack = list()
-		for curs, res, value in marker_lst :
-			if value == 'end' :
-				depth -= 1
-				if depth == 0 :
-					self.atom_map[self.atom_index] = Atom(match, txt[match.end():curs])
-					stack.append(f'\x02ATOM[{self.atom_index}]\x03')
-					self.atom_index += 1
-					prev = curs + len(end_pattern)
-			else :
-				depth += 1
-				if depth == 1 :
-					stack.append(txt[prev:curs])
-					match = res
-					prev = curs
-
-		stack.append(txt[prev:])
-		return ''.join(stack)
 
 	def restore_atom(self, txt) :
 		start, end = None, None
@@ -135,26 +70,8 @@ class GenericParser() :
 		stack.append(txt[end:None])
 		return ''.join(stack)
 
-	def parse_title(self, section_txt) :
-		""" parse a unique title at the beginning of a section """
-		try :
-
-			first_n = section_txt.index('\n')
-			title_txt = section_txt[:first_n]
-			title_res = title_rec.match(title_txt)
-			if title_res is None :
-				return section_txt, None
-			
-			return section_txt[first_n:].trim(), title_res
-
-		except ValueError :
-			return section_txt, None
-
-		# if title_res is not None : #
-		# 	o_section.grow('title', ident=title_res.group('ident')).add_text(title_res.group('title'))
-
 	def parse(self, txt) :
-		""" parse a text zone (no title) can be an alinea, a paragraph or a section """
+		""" parse a text zone (no title) can be an alinea, a paragraph or a section (many paragraph)"""
 
 		txt = self.expand_shortcut(txt)
 
@@ -163,14 +80,31 @@ class GenericParser() :
 		txt = self.clean_lines(txt)
 
 		if '\n\n' in txt :
-			return self.parse_section(txt)
+			return self._parse_section(txt)
 		elif '\n' in txt :
 			return self.parse_paragraph(txt)
 		else :
 			return self.parse_alinea(txt)
 
+	def extract_title(self, txt) :
+		""" parse a unique title at the beginning of a section """
+
+		line_lst = txt.splitlines()
+		title_res = title_rec.match(line_lst[0])
+		if title_res is not None :
+			o_title = oaktree.Leaf('title')
+			o_title.nam['depth'] = len(title_res.group('depth'))
+			if title_res.group('ident') is not None :
+				o_title.ident = int(title_res.group('ident'))
+			return line_lst[1:], title_res
+		return txt, None
+
+		# if title_res is not None : #
+		# 	o_section.grow('title', ident=title_res.group('ident')).add_text(title_res.group('title'))
+
+
 	def _parse_section(self, txt, tag='section') :
-		""" a section is a part of text which contains many paragraphs """
+		""" a section is a part of text which contains many paragraphs but no title """
 
 		initial_txt = txt
 
@@ -180,11 +114,21 @@ class GenericParser() :
 		txt = self.protect_atom(txt)
 		txt = self.clean_lines(txt)
 
+		# le titre devrait être lu ailleurs non ? mais je sais vraiment pas où...
+		# line_lst = txt.splitlines()
+		# title_res = title_rec.match(line_lst[0])
+		# if title_res is not None :
+		# 	o_section.nam['depth'] = len(title_res.group('depth'))
+		# 	if title_res.group('ident') is not None :
+		# 		o_section.ident = int(title_res.group('ident'))
+		# 	o_section.grow('title').add_text(title_res.group('title'))
+		# 	txt = '\n'.join(line_lst[1:]).strip()
+
 		for paragraph_txt in txt.split('\n\n') :
 			o_block = self.parse_paragraph(paragraph_txt)
 			o_section.attach(o_block)
 		
-		self.dbg(f'GenericParser.parse_section.bkt', initial_txt, BraketProxy().save(o_section.root))
+		# self.dbg(f'GenericParser.parse_section.bkt', initial_txt, BraketProxy().save(o_section.root))
 
 		return o_section
 
@@ -198,10 +142,14 @@ class GenericParser() :
 		
 		"""
 
-		atom_block_res = atom_block_rec.match(paragraph_txt)
+		print(f"parse_paragraph({paragraph_txt[:24]}...)")
+
+		atom_block_res = atom_packb_rec.match(paragraph_txt)
 		if atom_block_res is not None :
 			# the paragraph consists in a sole atom, with possibly an ident
-			return self.parse_atom(atom_block_res, True)
+			u = self.parse_atom(atom_block_res, True)
+			print("PRROUUUT", u)
+			return u
 
 			# atom = self.atom_map[int(atom_block_res.group('atom_n'))]
 			# if atom.tag == "table" :
@@ -308,7 +256,7 @@ class GenericParser() :
 
 		# the first level atoms have already been parsed
 		prev = None
-		for res in atom_line_rec.finditer(txt) :
+		for res in atom_packl_rec.finditer(txt) :
 			curr = res.start()
 			s = txt[prev:curr]
 			if s.strip() :
@@ -338,8 +286,8 @@ class GenericParser() :
 				o_block = oaktree.Leaf('math')
 			o_block.add_text(atom.content[0].strip())
 		else :
-			o_block = self.parse_alinea('|'.join(atom.content), atom.tag)
-			if len(atom.content) == 1 and '\n' in atom.content[0] :
+			o_block = self.parse_alinea('|'.join(atom.sub), atom.tag)
+			if len(atom.sub) == 1 and '\n' in atom.sub[0] :
 				o_block.flag.add('block')
 
 		if is_block and atom_res.group('ident') is not None :
