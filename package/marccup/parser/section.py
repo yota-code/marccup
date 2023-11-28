@@ -19,7 +19,7 @@ from marccup.parser.libre import *
 
 class SectionParser() :
 	"""
-	a section is someting
+	a section is a part of text which contains many paragraphs but no title
 	"""
 	def __init__(self, atom_parser=None, debug_dir=None) :
 
@@ -69,7 +69,6 @@ class SectionParser() :
 		return o_section
 
 	def _parse_section(self, txt, o_parent=None) :
-		""" a section is a part of text which contains many paragraphs but no title """
 
 		o_section = oaktree.Leaf('section', parent=o_parent)
 		# o_section.ident = id(o_section) & 0xFFFF

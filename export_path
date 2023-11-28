@@ -11,8 +11,6 @@ function push_pythonpath() {
 	export PYTHONPATH=${pth}/package:$PYTHONPATH
 }
 
-push_pythonpath ${source_dir}/../oaktree
-push_pythonpath "${source_dir}/../cc-pathlib"
 push_pythonpath ${source_dir}
 
 export MARCCUP_static_DIR=${source_dir}/static

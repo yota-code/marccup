@@ -38,7 +38,6 @@ class GenericParser() :
 			pth.write_text(('\n' + '─' * 96 + '\n').join(str(value) for value in value_lst))
 			self.debug_index += 1
 
-
 	def clean_lines(self, txt) :
 		# right trim each line
 		lst = [ line.rstrip() for line in txt.splitlines() ]
