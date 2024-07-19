@@ -54,6 +54,19 @@ L'élement `\math` n'accepte aucun sous élément
 
 L'élement `\fig` n'accepte aucun sous élément
 
+## traçabilité
+
+Le marqueur de traçabilité est défini par l'expression régulière `§[0-9]+`
+Il doit être unique sur l'ensemble du document
+
+Les marqueurs de la traçabilité sont associé à:
+- une section (le marqueur est positionné dans la ligne de titre)
+- un paragraphe (le marqueur est positionné seul dans la dernière ligne)
+- un alinea (le marqueur est placé en fin de ligne)
+
+Les titres (et donc les sections) sont numérotés d'office.
+Lors de l'édition, l'utilisation d'un marqueur sans identifiant numérique `§` déclenchera en post-traitement, l'attribution d'un numéro unique.
+
 
 
 # les formules de math
