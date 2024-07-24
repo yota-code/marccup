@@ -29,7 +29,7 @@ La mention de l'espace par défaut n'est pas obligatoire, l'espace par défaut e
 
 Si l'élément est un paragraphe à lui tout seul (excepté un indicateur de traçabilité), alors l'élément est marqué de niveau paragraphe (celà à un impact pour les formules)
 
-Si l'élément contient un signe `<`, `>` ou `|`, il doit être échappé par la syntaxe %lt, %gt, %pip (_en fait, seul %gt est vraiment utile pour lever l'ambiguité_)
+Si l'élément contient un signe `<`, `>` ou `|` qui n'a pas de valeur syntaxique (ie. qui est juste présent dans le corps du texte), il doit être échappé par la syntaxe %lt, %gt, %pip (_en fait, seul %gt est vraiment utile pour lever l'ambiguité, mais d'avoir les deux permets quand même un parsing amélioré_)
 
 Une syntaxe alternative permet d'utiliser un double marqueur de début de de fin `espace.nom<<contenu|arguments>>` qui permet donc d'avoir des caractères `<` ou `>` simples, mais pas doubles
 
@@ -51,6 +51,7 @@ Le contenu des champs nommés ou positionnels ne peux pas contenir d'accolade `{
 * `'<content>` devient `code<content>`
 * `"<content>` devient `quote<content>`
 * `~<content>` devient `note<content>`
+* `§<content>` devient `req<content>`
 
 ### les formules de math
 
@@ -106,8 +107,6 @@ Les marqueurs de la traçabilité sont associé à:
 
 Les titres (et donc les sections) sont numérotés d'office.
 Lors de l'édition, l'utilisation d'un marqueur sans identifiant numérique `§` déclenchera en post-traitement, l'attribution d'un numéro unique.
-
-
 
 # les formules de math
 
