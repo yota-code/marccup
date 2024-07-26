@@ -51,7 +51,7 @@ Le contenu des champs nommés ou positionnels ne peux pas contenir d'accolade `{
 * `'<content>` devient `code<content>`
 * `"<content>` devient `quote<content>`
 * `~<content>` devient `note<content>`
-* `§<content>` devient `req<content>`
+* `§<content>` devient `part<content>`
 
 ### les formules de math
 
@@ -65,10 +65,10 @@ L'élement `math<>` n'accepte aucun sous élément
 
 ### Les images et figures
 
-* Notées `\fig<content>`.
+* Notées `fig<content>`.
 * Rendue comme un élément flottant si l'image est _en ligne_. La numérotation des figures est automatique et une référence est insérée dans le texte.
 
-L'élement `\fig` n'accepte aucun sous élément
+L'élement `fig` n'accepte aucun sous élément
 
 ### Les tables
 
