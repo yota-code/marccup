@@ -4,21 +4,28 @@
 
 Une ligne commançant par un certain nombre de `=` est considéré comme un titre. Le nombre de `=` défini la profondeur du niveau de titre (sans limite théorique)
 
+Un titre peut contenir:
+
+* sub/sup
+* math (seulement inline)
+
 ## les sections
 
-Une section est une zone de texte coincée entre deux titres, ou le début du document et un titre. Elle peut être associée à un titre.
+Une section est une zone de texte coincée entre deux titres, ou le début du document et un titre. Elle est associée au titre. Elle peut contenir plusieurs paragraphes.
+
+Une section doit contenir un ou plusieurs paragraphes
 
 ## les paragraphes
 
-Un paragraphe est une suite contigüe d'alineas, soit une zone contigue de texte séparée du reste par 2 retours à la ligne consécutifs (ie. `\n\n`).
+Un paragraphe est une suite contigüe d'alineas, soit une zone de texte pouvant contenir des retour à la ligne, mais séparée des autres paragraphes par 2 retours à la ligne consécutifs (ie. `\n\n`).
 
 ## les alineas
 
-Un alinéa est une simple ligne de texte, entre deux retours à la ligne. Les retours à la ligne eux même n'ayant pas d'impact sur la mise en page (ie. ils ne sont rendus que comme un simple espace, comme en html) mais ils peuvent servir à marquer la traçabilité
+Un alinéa est une simple ligne de texte, entre deux retours à la ligne. Les retours à la ligne eux même n'ayant pas d'impact sur la mise en page (ie. ils ne sont rendus que comme un simple espace, comme en html ou en markdown) mais ils peuvent servir à marquer la traçabilité
 
 ## les listes
 
-Les listes à points sont introduites par le caractère `-` et les listes à numéro, par le caractère `.` suivit d'un espace
+Les listes à points sont introduites par le caractère `-` et les listes à numéro, par le caractère `.` suivit d'un espace.
 
 En cas de listes imbriquées, le niveau de profondeur est noté par une tabulation
 
@@ -27,11 +34,13 @@ En cas de listes imbriquées, le niveau de profondeur est noté par une tabulati
 D'une manière générale, un bloc est identifié par la syntaxe `espace.nom<contenu|attributs>`
 La mention de l'espace par défaut n'est pas obligatoire, l'espace par défaut est alors `marccup`
 
-Si l'élément est un paragraphe à lui tout seul (excepté un indicateur de traçabilité), alors l'élément est marqué de niveau paragraphe (celà à un impact pour les formules)
+Si l'élément est un paragraphe à lui tout seul (excepté l'indicateur de traçabilité), alors l'élément est marqué de niveau paragraphe (celà à un impact pour les formules)
 
-Si l'élément contient un signe `<`, `>` ou `|` qui n'a pas de valeur syntaxique (ie. qui est juste présent dans le corps du texte), il doit être échappé par la syntaxe %lt, %gt, %pip (_en fait, seul %gt est vraiment utile pour lever l'ambiguité, mais d'avoir les deux permets quand même un parsing amélioré_)
+Si l'élément contient un signe `<`, `>` ou `|` qui n'a pas de valeur syntaxique (ie. qui est juste présent dans le corps du texte), il doit être échappé par la syntaxe %lt, %gt, %pip (_en fait, seul %gt est vraiment utile pour lever l'ambiguité, mais d'avoir les deux permets quand même un parsing optimisé_)
 
-Une syntaxe alternative permet d'utiliser un double marqueur de début de de fin `espace.nom<<contenu|arguments>>` qui permet donc d'avoir des caractères `<` ou `>` simples, mais pas doubles
+Une syntaxe alternative permet d'utiliser un double marqueur de début de de fin `espace.nom<<contenu|arguments>>` qui permet donc d'avoir des caractères `<` ou `>` simples, mais pas doubles du coup
+
+Une autre syntaxe pourrait être `espace.nom<[contenu|arguments]>` ?
 
 La partie argument colle à la syntaxe de oaktree, soit des champs tels que décrit ci-dessous, séparés par des espaces:
 
@@ -52,14 +61,17 @@ Le contenu des champs nommés ou positionnels ne peux pas contenir d'accolade `{
 * `"<content>` devient `quote<content>`
 * `~<content>` devient `note<content>`
 * `§<content>` devient `part<content>`
+* `!<content>` devient `em<content>`
+* `!!<content>` devient `str<content>`
+* `!!!<content>` devient `crit<content>`
 
-### les formules de math
+## les formules de math
 
 * Notées `$<formule>` ou `math<formule>`.
 * Rendues sous leur forme _en ligne_ ou _en bloc_ suivant le contexte
 * La numérotation des équations est automatique pour toutes les équations portant un label.
 * On peut y ajouter des argument après un pipe `|`:
-	* `#label` auquel il pourra être fait référence sous la forme `@<eqn.label>`. Le label doit être compatible de l'expression régulière `[a-zA-Z][a-ZA-Z0-9_]*`
+	* `#label` auquel il pourra être fait référence sous la forme `@<eqn.label>`. Le label doit être compatible de l'expression régulière `/[a-zA-Z][a-ZA-Z0-9_]*/`
 
 L'élement `math<>` n'accepte aucun sous élément
 
@@ -68,22 +80,40 @@ L'élement `math<>` n'accepte aucun sous élément
 * Notées `fig<content>`.
 * Rendue comme un élément flottant si l'image est _en ligne_. La numérotation des figures est automatique et une référence est insérée dans le texte.
 
-L'élement `fig` n'accepte aucun sous élément
+L'élement `fig` n'accepte aucun sous élément.
 
 ### Les tables
 
-Les lignes sont séparées par trois tirets `---`
+Les lignes sont séparées par trois tirets `---` qui peuvent être placés seuls sur leur ligne ou pas
 Les colonnes sont séparées par un pipe `|`
+Le début et la fin de la ligne ne doit pas être marqué par un pipe
 
-Les champs qui commencent par `=` sont considérés comme des entêtes de table
+Les attributs suivants doivent être goupés sans espaces et doivent constituer le premier groupe de caractères non vides de la cellule. Ils seront lus par l'expression régulière suivante: `/^(=|r(?P<rowspan>\d+)|c(?P<colspan>\d+))+/`
+
+Les cellules qui commencent par `=` sont considérés comme des entêtes de table.
+Si toute la ligne est munie d'un attribut titre et que ce sont la ou les premières, elle seront placées dans un élément html5 `<thead>`, si ce sont la ou les dernières elle seront placées dans un élément `<tfoot>`. Sinon, l'élément html5 `<th>` seul sera utilisé.
+
+Les attributs rowspan et colspan sont noté respectivement `rX` et `cX` où `X` est un entier strictement positif.
 
 ```
 table<
 	= Lorem |= ipsum |= dolor ---
 	sit | amet | consectetur ---
 	adipiscing | elit | Nullam
-|#label>
+|#ident>
 ```
+
+Les cellules peuvent contenir plusieurs paragraphes
+
+### les liens
+
+Les liens ressemblent à ça:
+
+`@<text|url{path/to/image.png}}>`
+
+Ils sont transformés en html5 comme suit:
+
+`<a href="path/to/image.png">text</a>`
 
 # le parsing
 
@@ -114,3 +144,8 @@ Les syntaxes intéressantes:
 * latex
 * [asciimath](https://asciimath.org/)
 * eqn/libreoffice
+
+
+
+
+
