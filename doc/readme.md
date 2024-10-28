@@ -59,6 +59,7 @@ Le contenu des champs nommés ou positionnels ne peux pas contenir d'accolade `{
 * `@<content>` devient `link<content>`
 * `'<content>` devient `code<content>`
 * `"<content>` devient `quote<content>`
+* `#<content>` devient `table<content>`
 * `~<content>` devient `note<content>`
 * `§<content>` devient `part<content>`
 * `!<content>` devient `em<content>`
@@ -84,23 +85,26 @@ L'élement `fig` n'accepte aucun sous élément.
 
 ### Les tables
 
-Les lignes sont séparées par trois tirets `---` qui peuvent être placés seuls sur leur ligne ou pas
+Les lignes sont séparées par trois tirets `--` qui peuvent être placés seuls sur leur ligne ou pas
 Les colonnes sont séparées par un pipe `|`
 Le début et la fin de la ligne ne doit pas être marqué par un pipe
 
-Les attributs suivants doivent être goupés sans espaces et doivent constituer le premier groupe de caractères non vides de la cellule. Ils seront lus par l'expression régulière suivante: `/^(=|r(?P<rowspan>\d+)|c(?P<colspan>\d+))+/`
+Les attributs suivants doivent être goupés sans espaces et doivent constituer le premier groupe de caractères non vides de la cellule. Ils seront lus par l'expression régulière suivante: `/^(=|r(?P<rowspan>\d+)|c(?P<colspan>\d+)|[CRLJ])+\s/`
 
-Les cellules qui commencent par `=` sont considérés comme des entêtes de table.
-Si toute la ligne est munie d'un attribut titre et que ce sont la ou les premières, elle seront placées dans un élément html5 `<thead>`, si ce sont la ou les dernières elle seront placées dans un élément `<tfoot>`. Sinon, l'élément html5 `<th>` seul sera utilisé.
+L'attribut d'entête est `=`
+
+Si tout une ligne est munie d'un attribut d'entête et que ce sont la ou les premières, elle seront placées dans un élément html5 `<thead>`, si ce sont la ou les dernières elle seront placées dans un élément `<tfoot>`. Sinon, l'élément html5 `<th>` seul sera utilisé.
 
 Les attributs rowspan et colspan sont noté respectivement `rX` et `cX` où `X` est un entier strictement positif.
 
+L'attribut d'alignement est `R`, `L`, `J`, `C` pour droite, gauche, justifié, centré. par défaut le contenu des cellules sera aligné à gauche. 
+
 ```
 table<
-	= Lorem |= ipsum |= dolor ---
-	sit | amet | consectetur ---
+	= Lorem |= ipsum |= dolor --
+	sit | amet | consectetur --
 	adipiscing | elit | Nullam
-|#ident>
+|#ident label{this is some table}>
 ```
 
 Les cellules peuvent contenir plusieurs paragraphes
@@ -144,6 +148,7 @@ Les syntaxes intéressantes:
 * latex
 * [asciimath](https://asciimath.org/)
 * eqn/libreoffice
+* mathjson
 
 
 
